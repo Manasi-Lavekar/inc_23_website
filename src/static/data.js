@@ -13,7 +13,7 @@ export const projectDomains = [
 ];
 
 export const departments = [
-  { value: "CO", label: "Computer Engineering" },
+  { value: "CE", label: "Computer Engineering" },
   { value: "IT", label: "Information Technology" },
   { value: "E&TC", label: "Electronics And Telecommunication" },
   { value: "FE", label: "First Year Engineering" },

@@ -150,7 +150,7 @@ function Card(props) {
   const redirectEvents = useNavigate()
 
   return (
-    <Link to={`/event-details/${props.name.toLowerCase()}`} rel="noopener noreferrer">
+    <Link to={props.name==="GAME JAM"?"https://unstop.com/p/game-jam24-sctrs-pune-institute-of-computer-technology-dhankawadi-pune-878729?lb=A1YJYb6a&utm_medium=Share&utm_source=WhatsApp":`/event-details/${props.name.toLowerCase()}`} rel="noopener noreferrer">
 
       {/* my card*/}
       <div className="py-10 mx-5 md:mx-0 ">

@@ -18,11 +18,11 @@
 .team-name {
   position: relative;
   display: block;
-  font-size: 2rem;
+  font-size: 1.8rem;
   margin-top: -4.4rem;
   text-transform: uppercase;
-  max-width: 100%; 
-  white-space: nowrap; 
+  max-width: 100%;
+  white-space: nowrap;
   text-overflow: ellipsis;
 }
 
@@ -30,14 +30,40 @@
   content: "";
   position: absolute;
   left: 50%;
-  transform: translateX(-50%);
-  width: 30%;
+  width: 20rem;
   height: 3.4rem;
   background-color: rgb(17 24 39 / 0.8);
   border: 1px solid rgb(12 74 110 / 0.4);
   border-radius: 0.5rem;
   z-index: -1;
-  text-align:center;
+  text-align: center;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.team-name2 {
+  position: relative;
+  display: block;
+  font-size: 1.8rem;
+  margin-top: -4.4rem;
+  text-transform: uppercase;
+  max-width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.team-name2::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  width: 135%;
+  height: 3.4rem;
+  background-color: rgb(17 24 39 / 0.8);
+  border: 1px solid rgb(12 74 110 / 0.4);
+  border-radius: 0.5rem;
+  z-index: -1;
+  text-align: center;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .members {
@@ -113,7 +139,8 @@
 .post {
   font-size: 1rem;
   font-style: italic;
-  margin-top: 4px;
+  margin-top: 2px;
+  margin-bottom: 7px;
 }
 
 .member-icons {
@@ -135,7 +162,8 @@
 
 @media screen and (max-width: 768px) {
   .inc-teams {
-    padding: 0 20px; 
+    padding: 0 20px;
+    margin-top: 2rem;
   }
 
   .team {
@@ -154,10 +182,16 @@
   }
 
   .team-name {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
   }
   .team-name::before {
-    width: 50%; 
+    width: 18rem;
+  }
+  .team-name2 {
+    font-size: 1.5rem;
+  }
+  .team-name2::before {
+    width: 120%;
   }
 }
 
@@ -166,10 +200,17 @@
     width: 100%;
   }
   .team-name {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
   }
 
   .team-name::before {
-    width: 70%; 
+    width: 90%;
+  }
+  .team-name2 {
+    font-size: 1.2rem;
+  }
+
+  .team-name2::before {
+    width: 120%;
   }
 }
