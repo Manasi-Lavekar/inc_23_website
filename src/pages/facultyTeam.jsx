@@ -14,6 +14,7 @@ export default function FacultyTeam() {
         { value: "International Project Entries / Publicity (All Zones)", names: [{ value: "1. Dr. M. P. Turuk (E&TC)" }, { value: "2. Dr. G. S. Mundada (E&TC)" }, { value: "3. Dr. A. A. Ghotkar  (IT)" }, { value: "4. Dr. B. M. Vyas (FE)" }] },
         { value: "National / State Level / Publicity (All Zones)", names: [{ value: "1. Dr. Emmanuel M. & Prof. R. B. Murumkar" }, { value: "2. Dr. S. C. Dharmadhikari (IT)" }, { value: "3. Prof. S. S. Pande (IT)" }, { value: "4. Prof. Y. A. Handge (COMP)" }] },
         { value: "Local Publicity", names: [{ value: "1. Prof. H. B. Mali &  Prof. H. S. Thakar" }, { value: "2. Prof. M. N. Kakade (E&TC)" }, { value: "3. Prof. B. D. Kadam (E&TC)" }, { value: "4. Dr. P. A. Khadkikar (COMP)" }, { value: "5. Prof. M. V. Mane (COMP)" }, { value: "6. Prof. S. R. Hiray (IT)" }, { value: "7. Prof. A. C. Karve (IT)" }] },
+        { value: "Local Publicity", names: [{ value: "1. Prof. H. B. Mali &  Prof. H. S. Thakar" }, { value: "2. Prof. M. N. Kakade (E&TC)" }, { value: "3. Prof. B. D. Kadam (E&TC)" }, { value: "4. Dr. P. A. Khadkikar (COMP)" }, { value: "5. Prof. M. V. Mane (COMP)" }, { value: "6. Prof. S. R. Hiray (IT)" }, { value: "7. Prof. A. C. Karve (IT)" }] },
         { value: "Exclusive Publicity at Professional Bodies & Chapters: IEEE, ACM, CSI, IET ", names: [{ value: "1. Dr. G. V. Kale & Dr. K. V. Sultanpure" }, { value: "2. Prof. M. J. Sagade (E&TC)" }] },
         { value: "Publicity through social media and Campus Ambassador Coordination", names: [{ value: "1. Dr. J. B. Jagdale" }, { value: "2. Prof. M. R. Jansari (COMP)" }, { value: "3. Prof. P. S. Shahane (COMP)" }] },
         { value: "InC Synopsis book, Certificates Design Team", names: [{ value: "1. Prof. B. P. Masram &  Prof. A. G. Dhamankar" }, { value: "2. Prof. N.P. Sapkal (FE)" }, { value: "3. Mr. D. M. Mankar (E&TC)" }] },
@@ -36,6 +37,7 @@ export default function FacultyTeam() {
         { value: "Network Administration and BW management during Event", names: [{ value: "1. Prof. M.S. Chavan (COMP))" }, { value: "2. Mr. S. S. Metkari (COMP)" }, { value: "3. Mr. P. P. Parkhi (COMP)" }] },
         { value: "VNL", names: [{ value: "1. Prof. R. S. Paswan (COMP)" }, { value: "2. Prof. S. D. Shelke (IT)" }, { value: "3. Prof. A. K. Patel (E&TC)" }, { value: "4. Prof. S. K. Shah (COMP)" }, { value: "5. Prof. D.S. Sapkal (IT)" }, { value: "6. Mr. S. N. Deokate (FE)" }, { value: "7. Mr. N. S. Mirajkar (FE)" }] },
         { value: "Stage Setup", names: [{ value: "1. Prof. S. A. Jakhete & A. A. Joshi" }, { value: "2. Prof. P. S. Joshi (COMP)" }, { value: "3. Prof. A. V. Yenkikar (IT)" }, { value: "4. Prof. S. M. Hosamani (E&TC)" }, { value: "5. Prof. U. S. Pawar (COMP)" }, { value: "6. Prof. A. N. Sayyad (FE)" }, { value: "7. Prof. A. C. Karve (IT)" }, { value: "8. Prof. V. A. Patil (E&TC)" }, { value: "9. Dr. U. R. Polina (FE)" }, { value: "10. Ms. A. M. Kulkarni (IT)" }] },
+        { value: "Stage Setup", names: [{ value: "1. Prof. S. A. Jakhete & A. A. Joshi" }, { value: "2. Prof. P. S. Joshi (COMP)" }, { value: "3. Prof. A. V. Yenkikar (IT)" }, { value: "4. Prof. S. M. Hosamani (E&TC)" }, { value: "5. Prof. U. S. Pawar (COMP)" }, { value: "6. Prof. A. N. Sayyad (FE)" }, { value: "7. Prof. A. C. Karve (IT)" }, { value: "8. Prof. V. A. Patil (E&TC)" }, { value: "9. Dr. U. R. Polina (FE)" }, { value: "10. Ms. A. M. Kulkarni (IT)" }] },
         { value: "Inauguration and Closing ceremony Tasks.", names: [{ value: "1. Dr. A. R. Deshpande & Dr. A.G. Phakatkar" }] },
         { value: "T-Shirts", names: [{ value: "1. Prof. V. S. Gaikwad (COMP)" }, { value: "2. Prof. S. S. More (E&TC)" }, { value: "3. Prof. A. A. Kadam (IT)" }] },
         { value: "Hardware", names: [{ value: "1. Prof. V. R. Jaiswal & Prof. N. V. Buradkar (IT)" }, { value: "2. Prof. D. M. Shinde (E&TC)" }, { value: "3. Prof. S. R. Warhade (IT)" }, { value: "4. Prof. A. S. Ramteke (E&TC)" }, { value: "5. Mr. D. M. Mankar (E&TC)" }, { value: "6. Mr. D.D. Thikekar (COMP)" }, { value: "7. Mr. K. B. Kadambande (COMP)" }, { value: "8. Mr. B.S. Jadhav (IT)" }, { value: "9. Mr. D.P. Dabir (E&TC)" }, { value: "10. Mr. A. V. Torne (FE)" }] },
@@ -51,7 +53,7 @@ export default function FacultyTeam() {
             <div className="my-10 md:mt-28 mt-20">
                 <div className="flex justify-center items-center ">
 
-                    <h2 className='team-name2 md:before:w-[80rem] before:w-80 before:h-10 md:before:h-[3.4rem]'>Staff Committee Team</h2>
+                    <h2 className='team-name2 md:before:w-[80rem] before:w-80 before:h-10 md:before:h-[3.4rem]'>Faculty Committee</h2>
                 </div>
             </div>
             {faculty.map(fac => (

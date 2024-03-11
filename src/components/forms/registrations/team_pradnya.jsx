@@ -194,7 +194,7 @@ const initialErrorsForm3 = {
 };
 
 function TeamPradnya() {
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [activeStep, setActiveStep] = React.useState(1);
   const width = `${(100 / (totalSteps - 1)) * (activeStep - 1)}%`;
 
   //form1
@@ -428,6 +428,7 @@ function TeamPradnya() {
 
       setFormStep((currentStep) => currentStep + 1);
       setActiveStep((activeStep) => activeStep + 1);
+      console.log(formStep, activeStep)
     }
     if (formStep === 2) {
       // console.log(form2);
@@ -452,21 +453,30 @@ function TeamPradnya() {
       registerUserMutationForm2.mutate(form2, {
         onSuccess: () => {
           setErrors2(initialErrorsForm2);
-          if (form2.isPICT === "1" || form2.isInternational === "1") {
-            const temp =
-              form2.isPICT === "1" ? { isPICT: "1" } : { isInternational: "1" };
+          if (form2.isPICT === "1" || form2.isInternational === "1" || form2.state !== "MH") {
+            let temp;
+            if (form2.isPICT === "1") {
+              temp = { isPICT: "1" };
+            } else if (form2.isInternational === "1") {
+              temp = { isInternational: "1" };
+            } else if (form2.state !== "MH") {
+              temp = { payment_id: "out of state" };
+            }
+
             registerUserMutationForm3.mutate(temp, {
               onSuccess: () => {
                 toast.success("Completed Registration !", { icon: "✅" });
                 setPaymentStatus(true);
                 setFormStep((currentStep) => currentStep + 1);
                 setActiveStep((activeStep) => activeStep + 1);
+                console.log(formStep, activeStep)
               },
             });
           } else {
             toast.success("Completed Step 3️⃣ !", { icon: "✅" });
             setFormStep((currentStep) => currentStep + 1);
             setActiveStep((activeStep) => activeStep + 1);
+            console.log(formStep, activeStep)
           }
         },
       });
@@ -484,9 +494,10 @@ function TeamPradnya() {
         {
           onSuccess: () => {
             toast.success("Completed Step 4️⃣ !", { icon: "✅" });
-            setFormStep((currentStep) => currentStep + 1);
+            // setFormStep((currentStep) => currentStep + 1);
             setActiveStep((activeStep) => activeStep + 1);
             setPaymentStatus(true);
+            console.log(formStep, activeStep)
           },
         }
       );
@@ -524,21 +535,22 @@ function TeamPradnya() {
       {true ?
         <>
           <StepContainer width={width}>
-            {steps.map(({ step, label }) => (
-              <StepWrapper key={step}>
-                <StepStyle step={activeStep >= step ? "completed" : "incomplete"}>
-                  {activeStep > step ? (
-                    <CheckMark>L</CheckMark>
-                  ) : (
-                    <StepCount>{step}</StepCount>
-                  )}
-                </StepStyle>
-                <StepsLabelContainer>
-                  <StepLabel key={step}>{label}</StepLabel>
-                </StepsLabelContainer>
-              </StepWrapper>
-            ))}
+            {steps.map(({ step, label }) => {
+              const isActive = activeStep === step;
+              const isCompleted = activeStep > step;
+              return (
+                <StepWrapper key={step}>
+                  <StepStyle step={isCompleted ? "completed" : isActive ? "active" : "incomplete"}>
+                    {isCompleted ? <CheckMark>L</CheckMark> : <StepCount>{step}</StepCount>}
+                  </StepStyle>
+                  <StepsLabelContainer>
+                    <StepLabel key={step}>{label}</StepLabel>
+                  </StepsLabelContainer>
+                </StepWrapper>
+              );
+            })}
           </StepContainer>
+
           <div className=" md:mx-16 my-6">
             <form className="rounded-lg px-8 pt-6 pb-8 mb-4 border">
 
@@ -627,7 +639,7 @@ function TeamPradnya() {
                           error={errors1.name}
                           onChange={(event) => handleFormChange(event, index)}
                           value={form.name}
-                          tip={'Guide name should be between 3 and 50 characters(both inclusive) long and contains only alphabetical characters.'}
+                          tip={"Name should be between 3 and 50 characters(both inclusive) long and contains only alphabetical characters."}
                         />
                         <InputBox
                           label="Email ID"
@@ -1024,7 +1036,7 @@ function TeamPradnya() {
 
 
                 {formStep === 3 ? (
-                  paymentStatus || form1.state !== "MH" ? (
+                  paymentStatus ? (
                     <></>
                   ) : (
                     <Buttons

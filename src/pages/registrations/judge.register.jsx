@@ -49,7 +49,7 @@ function JudgeForm() {
         'isPICT': '0',
         'referral': ''
     });
-    
+
 
     const [errors, setErrors] = useState(initialErrors)
 
@@ -98,25 +98,21 @@ function JudgeForm() {
     console.log(judge)
     return (
         <>
-            <FormsBanner eventName={`JUDGES REGISTRATION - ${eventName} `} eventDescription="Register to join us to make InC'24 a grand success!" />
+            <FormsBanner eventName={`JUDGES REGISTRATION - ${eventName} `} eventDescription=" Please register to join us and make InC'24 a grand success!" />
             <div className='mx-5 my-5 md:mx-20 placeholder:'>
                 <form onSubmit={handleSubmit} className='shadow-md shadow-light_blue/20 bg-light_blue/30 rounded-xl border-light_blue items-center p-4 md:p-8 border w-full'>
                     <NoteBox title='Note' text='This registration form is to be filled by the judges only for judging the impetus and concepts event..' />
-
                     <InputBox label='Name' type='text' name='name' value={judge.name} placeholder='Enter Full Name' onChange={handleInputChange} error={errors.name} required />
                     <InputBox label='Email' type='email' name='email' value={judge.email} placeholder='Enter Email' onChange={handleInputChange} error={errors.email} required />
                     <InputBox label='Phone' type='tel' name='phone' value={judge.phone} placeholder='Enter Phone Number' onChange={handleInputChange} error={errors.phone} required />
                     <InputBox label='Company/Organization' type='text' name='company' value={judge.company} placeholder='Enter Company Name' onChange={handleInputChange} error={errors.company} required />
                     <InputBox label='Company/Organization Address' type='text' name='commercial_address' value={judge.commercial_address} placeholder='Enter Company Address' onChange={handleInputChange} error={errors.commercial_address} required />
-
                     <InputBox label='Residential Address' type='text' name='residential_address' value={judge.residential_address} placeholder='Enter Residential Address' onChange={handleInputChange} error={errors.commercial_address} required />
-
-
-                    <InputBox label='Industry Experience' type='number' name='exp' value={judge.exp} placeholder='Enter Industry Experience' min={eventName === "comcepts" ? 3 : 0} max={100} onChange={handleInputChange} error={errors.exp} required />
-                    {/* <Checkboxes label='Select Event(s)' name='events' state={judge} setState={setJudge} options={events} error={errors.events} required /> */}
+                    <InputBox label='Industry Experience (in years)' type='number' name='exp' value={judge.exp} placeholder='Enter Industry Experience' min={eventName === "comcepts" ? 3 : 0} max={100} onChange={handleInputChange} error={errors.exp} required />
                     <Checkboxes label='Select Domain(s) for Judging' name='domains' state={judge} setState={setJudge} options={projectDomains} error={errors.domains} required />
                     <Checkboxes label='Select Slot(s) (tentative)' name='slots' state={judge} setState={setJudge} options={slots} error={errors.slots} required />
-                    <InputBox label='Minimum Number of Projects want to Judge' type='number' name='min_projects' value={judge.min_projects} placeholder='Enter Minimum Number of Projects' min={3} max={10} onChange={handleInputChange} error={errors.min_projects} required />
+                    <InputBox label='Minimum Number of projects you want to Judge' type='number' name='min_projects' value={judge.min_projects} placeholder='Enter Minimum Number of Projects' min={3} max={10} onChange={handleInputChange} error={errors.min_projects} required />
+
                     <RadioButtons
                         label="Are you a PICT Alumini ?"
                         options={isPICT}

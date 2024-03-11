@@ -7,7 +7,6 @@ import { toast } from '../components';
 function useReferralConcepts() {
     const { mutate, isLoading, isSuccess, isError, data, error } = useMutation(referralConcepts(), {
         onError: (err) => {toast.warn("Error in form")
-
         }
     })
     return { mutate, isLoading, isSuccess, isError, data, error }

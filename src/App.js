@@ -11,6 +11,7 @@ import JudgeProtectedRoutes from './routes/JudgeProtectedRoutes.js';
 import AboutUs from './components/aboutUs.jsx';
 import Committee from './components/committee.jsx';
 import ReferralConcepts from './pages/referral/referralConcepts.jsx';
+import Referral from './pages/referral/index.js';
 
 
 function MainApp() {
@@ -48,8 +49,7 @@ function MainApp() {
         <Route path='/about' element={<AboutUs />} />
         <Route path='/committee' element={<Committee />} />
         {/* REFERRAL FORMS  */}
-        <Route path='/referral/concepts' element={<ReferralConcepts />} />
-        <Route path='/referral/impetus' element={<ReferralConcepts />} />
+        <Route path='/referral/*' element={<Referral />} />
 
 
         {process.env.REACT_APP_ENVIRONMENT === 'development' &&

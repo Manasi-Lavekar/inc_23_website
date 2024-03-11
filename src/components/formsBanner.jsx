@@ -6,7 +6,12 @@ function FormsBanner(props) {
             </div>
             <div className='flex flex-col justify-center gap-3'>
                 <h1 className="text-xl md:text-3xl font-poppins text-gold font-bold tracking-wider underline underline-offset-4 decoration-1 decoration-light_blue uppercase">{props.eventName}</h1>
-                {props.eventDescription && <h2 className="text-lg md:text-2xl border-l-2 border-gold md:font-light md:leading-6 pl-2">{props.eventDescription}</h2>}
+                {props.eventDescription && (
+                    <h2
+                        className="text-lg md:text-xl border-l-2 border-gold md:font-light list-disc md:leading-6 pl-2"
+                        dangerouslySetInnerHTML={{ __html: props.eventDescription }}
+                    />
+                )}
             </div>
         </header>
     );
