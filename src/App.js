@@ -14,6 +14,7 @@ import ReferralConcepts from './pages/referral/referralConcepts.jsx';
 import Referral from './pages/referral/index.js';
 
 
+
 function MainApp() {
   const [loading, setLoading] = useState(false);
   const [showNavbar, setShowNavbar] = useState(true);
@@ -44,6 +45,7 @@ function MainApp() {
         <Route path='/inc-teams' element={<InCTeams />} />
         <Route path='/web-teams' element={<WebTeam />} />
         <Route path='/faculty-teams' element={<FacultyTeam />} />
+        <Route path='/core-teams' element={<InCTeams/>} />
         <Route path='/events' element={<EventCards />} />
         <Route path='/sponsors' element={<Sponsors />} />
         <Route path='/about' element={<AboutUs />} />

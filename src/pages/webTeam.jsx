@@ -1,14 +1,15 @@
 import './styles/incTeams.css';
 import { useEffect } from 'react';
 import scrollToTop from '../utils/scrollToTop';
-import test_image from '../assets/images/abhishek1.jpeg';
-import test_image1 from '../assets/images/Viraj.jpeg';
-import test_image2 from '../assets/images/om.jpeg';
-import test_image3 from '../assets/images/parth.jpg';
-import test_image4 from '../assets/images/sarthak.jpeg';
-import test_image5 from '../assets/images/manasi1.jpeg';
-import test_image6 from '../assets/images/siddhi1.jpeg';
-import test_image7 from '../assets/images/manas.jpeg';
+import test_image from '../assets/images/Web Team/abhishek1.jpeg';
+import test_image1 from '../assets/images/Web Team/Viraj.jpeg';
+import test_image2 from '../assets/images/Web Team/om.jpeg';
+import test_image3 from '../assets/images/Web Team/parth.jpg';
+import test_image4 from '../assets/images/Web Team/sarthak.jpeg';
+import test_image5 from '../assets/images/Web Team/manasi1.jpeg';
+import test_image6 from '../assets/images/Web Team/siddhi1.jpeg';
+import test_image7 from '../assets/images/Web Team/manas.jpeg';
+import test_image8 from '../assets/images/Web Team/SairajMane.png';
 import member_bg from '../assets/images/member_bg.jpg';
 import { EmailIcon, LinkedinIcon, GithubIcon } from '../assets/icons';
 function WebTeam() {
@@ -36,9 +37,10 @@ function WebTeam() {
     {
       team: 'Web Team', members: [
         { name: 'Parth Sali', post: 'Web Team', email: 'parthsali04@gmail.com', linkedin: 'https://www.linkedin.com/in/parthsali/', github: ' https://github.com/parthsali', photo: test_image3 },
-        { name: 'Sarthak Chaudhari', post: 'Web Team', email: 'Sarthakchaudhari401@gmail.com', linkedin: 'https://www.linkedin.com/in/sarthak-chaudhari-0b920722a/', github: 'https://github.com/JusticeChaudhari', photo: test_image4 },
+        { name: 'Sairaj Mane', post: 'Web Team', email: 'sairajmane.pict@gmail.com', linkedin: 'https://www.linkedin.com/in/sairaj-mane-263490188/', github: 'https://github.com/SairajMane', photo: test_image8 },
         { name: 'Manasi Lavekar', post: 'Web Team', email: 'manasilavekar1@gmail.com', linkedin: 'https://www.linkedin.com/in/manasi-lavekar-b3213922b/', github: 'https://github.com/Manasi-Lavekar', photo: test_image5 },
         { name: 'Siddhi Ove', post: 'Web Team', email: 'siddhiove0407@gmail.com', linkedin: 'https://www.linkedin.com/in/siddhi-ove-304596250/', github: 'https://github.com/sid040703', photo: test_image6 },
+        { name: 'Sarthak Chaudhari', post: 'Web Team', email: 'Sarthakchaudhari401@gmail.com', linkedin: 'https://www.linkedin.com/in/sarthak-chaudhari-0b920722a/', github: 'https://github.com/JusticeChaudhari', photo: test_image4 }
       ]
     }
 

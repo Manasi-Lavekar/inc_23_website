@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import UnderConstructionPopup from './UnderConstructionPopup';
 import { Buttons } from '../components';
 import './styles/incTeams.css';
+import InCTeams from '../pages/incTeams';
 
 
 const Committee = () => {
@@ -27,9 +28,10 @@ const Committee = () => {
                     <blockquote className='italic md:text-4xl text-lg tracking-wide p-2'>The strength of the team is each individual member. The strength of each member is the team.</blockquote>
                     <figcaption className='md:text-xl'>- Phil Jackson</figcaption>
                 </figure>
-                <div className='w-full md:w-2/5 relative flex justify-center items-center gap-6 md:p-6'>
+                <div className='w-full md:w-full  flex flex-wrap justify-center items-center gap-6 md:p-6'>
                     {/* <Buttons value={'Student Team'} onClick={() => navigate('/inc-teams')} /> */}
                     <Buttons value={'Web Committee'} onClick={() => showTeam('web')} />
+                    <Buttons value={'Core Committee'} onClick={() => showTeam('core')} />
                     <Buttons value={'Faculty Committees'} onClick={() => showTeam('faculty')} />
                 </div>
 
@@ -45,6 +47,7 @@ const Committee = () => {
                 )} */}
             </div>
             {showPopup === "web" && <WebTeam />}
+            {showPopup === "core" && <InCTeams/>}
             {showPopup === "faculty" && <FacultyTeam />}
         </>
     )

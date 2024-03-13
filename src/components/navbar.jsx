@@ -234,6 +234,12 @@ function Navbar() {
                       onClick={closeCommittee}>
                       Web Comittee
                     </NavLink>
+                    <NavLink to="/core-teams"
+                      className={`py-2 px-2 text-md font-semibold transition duration-300`}
+                      activeClassName="active"
+                      onClick={closeCommittee}>
+                      Core Comittee
+                    </NavLink>
                     <NavLink
                       to="/faculty-teams"
                       className="py-2 px-2 text-md  font-semibold transition duration-300 "

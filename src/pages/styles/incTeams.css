@@ -30,7 +30,7 @@
   content: "";
   position: absolute;
   left: 50%;
-  width: 20rem;
+  width: 25rem;
   height: 3.4rem;
   background-color: rgb(17 24 39 / 0.8);
   border: 1px solid rgb(12 74 110 / 0.4);
@@ -56,6 +56,32 @@
   position: absolute;
   left: 50%;
   width: 135%;
+  height: 3.4rem;
+  background-color: rgb(17 24 39 / 0.8);
+  border: 1px solid rgb(12 74 110 / 0.4);
+  border-radius: 0.5rem;
+  z-index: -1;
+  text-align: center;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.team-name3 {
+  position: relative;
+  display: block;
+  font-size: 1.8rem;
+  margin-top: -4.4rem;
+  text-transform: uppercase;
+  max-width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.team-name3::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  width: 25rem;
   height: 3.4rem;
   background-color: rgb(17 24 39 / 0.8);
   border: 1px solid rgb(12 74 110 / 0.4);
@@ -112,6 +138,7 @@
   top: 40%;
   left: 50%;
   width: 100%;
+  height: relative; /* Ensure aspect ratio is maintained */
   pointer-events: none;
   transform: translate(-50%, 20px) scale(1);
   transform-origin: center bottom;
@@ -121,7 +148,7 @@
 
 .apple:hover .img {
   transform: translate(-50%, 0) scale(1.2);
-}
+} 
 
 .divider {
   margin: -2rem auto 0.4rem;
@@ -182,7 +209,7 @@
   }
 
   .team-name {
-    font-size: 1.6rem;
+    font-size: 160%;
   }
   .team-name::before {
     width: 18rem;
@@ -193,6 +220,12 @@
   .team-name2::before {
     width: 120%;
   }
+  .team-name3 {
+    font-size: 1.5rem;
+  }
+  .team-name3::before {
+    width: 25rem;
+  }
 }
 
 @media screen and (max-width: 480px) {
@@ -200,11 +233,11 @@
     width: 100%;
   }
   .team-name {
-    font-size: 1.4rem;
+    font-size: 130%;
   }
 
   .team-name::before {
-    width: 90%;
+    width: 15rem;
   }
   .team-name2 {
     font-size: 1.2rem;
@@ -212,5 +245,11 @@
 
   .team-name2::before {
     width: 120%;
+  }
+  .team-name3 {
+    font-size: 120%;
+  }
+  .team-name3::before {
+    width: 110%;
   }
 }
