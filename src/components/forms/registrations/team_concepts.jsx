@@ -695,7 +695,7 @@ function TeamConcepts() {
             if (property === "state") continue;
             if (property === "district") continue;
             if (property === "locality") continue;
-            console.log("tech inter", property)
+            // console.log("tech inter", property)
             toast.warn("Please enter all fields!");
             return;
           } else if (form2.techfiesta === "1") {
@@ -704,7 +704,7 @@ function TeamConcepts() {
             if (property === "department") continue;
             if (property === "group_id") continue;
             if (property === "reason_of_mode" && form2["mode"] === "1") continue;
-            console.log("tech", property)
+            // console.log("tech", property)
             toast.warn("Please enter all fields!");
             return;
           }
@@ -720,7 +720,7 @@ function TeamConcepts() {
             if (property === "tech_Transaction_id") continue;
             if (property === "techfiesta") continue;
 
-            console.log("else ", property)
+            // console.log("else ", property)
             toast.warn("Please enter all fields!");
             return;
           }
@@ -985,7 +985,7 @@ function TeamConcepts() {
                 <>
                   {isOpen && (
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-50">
-                      <div className="w-80 md:w-1/3 bg-light_blue p-6 rounded-xl border border-white border-3">
+                      <div className="w-[22rem] md:w-[30rem] bg-light_blue p-6 rounded-xl border border-white border-3">
                         <div className="flex justify-between items-center">
                           <h1 className="text-3xl font-bold text-white">Instructions</h1>
                           <button onClick={closeModal} className="text-white font-bold text-4xl">&times;</button>

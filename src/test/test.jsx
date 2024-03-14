@@ -38,14 +38,14 @@ function Test() {
 
     function a(e) {
         e.preventDefault()
-        console.log('Submitted');
+        // console.log('Submitted');
         toast.success('Submitted', { icon: '🔥' })
     }
 
     function submit(e) {
         e.preventDefault()
-        console.log(e.target.isPICT.value);
-        console.log(state.domains);
+        // console.log(e.target.isPICT.value);
+        // console.log(state.domains);
     }
 
     return (

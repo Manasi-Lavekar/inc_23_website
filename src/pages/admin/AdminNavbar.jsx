@@ -25,10 +25,8 @@ function AdminNavbar() {
   const handleLogout = () => {
     logoutAdmin()
     toast.success('logged out')
-    navigate('/')
+    navigate('/auth')
   };
-
-
 
 
   return (
@@ -38,7 +36,7 @@ function AdminNavbar() {
           <div className="flex justify-between text-lg">
             <div className="flex space-x-7">
               <a
-                href="https://pictinc.org"
+                href="https://pictinc.org/admin/stats"
                 className="flex items-center py-4 px-2"
               >
                 <img src={inc_logo} alt="inc_Logo" className="h-12 w-12 mr-2" />
@@ -48,30 +46,21 @@ function AdminNavbar() {
               </a>
               <div className="hidden lg:flex items-center justify-content space-x-3">
                 <NavLink
-                  to="/admin"
-                  className={`py-4 px-2 border-b-4 font-semibold transition duration-300 ${selected === "/admin"
-                    ? "border-light_blue/80 text-gold"
-                    : "hover:text-gold border-transparent"
-                    }`}
+                  to="/admin/stats"
+                  className={`py-4 px-2 font-semibold transition duration-300`}
                 >
                   Home
                 </NavLink>
                 <NavLink
                   to="/admin/events/registrations/view"
-                  className={`py-4 px-2 border-b-4 font-semibold transition duration-300 ${selected === "/admin/events/registrations/view"
-                    ? "border-light_blue/80 text-gold"
-                    : "hover:text-gold border-transparent"
-                    }`}
+                  className={`py-4 px-2 font-semibold transition duration-300`}
                 >
                   View registrations
                 </NavLink>
 
                 <NavLink
                   to="/admin/events/registrations/verify"
-                  className={`py-4 px-2 border-b-4 font-semibold transition duration-300 ${selected === "/admin/events/registrations/verify"
-                    ? "border-light_blue/80 text-gold"
-                    : "hover:text-gold border-transparent"
-                    }`}
+                  className={`py-4 px-2 font-semibold transition duration-300`}
                 >
                   Verify registrations
                 </NavLink>

@@ -16,7 +16,8 @@
     "react-scripts": "5.0.1",
     "react-spinners": "^0.13.8",
     "react-toastify": "^9.1.1",
-    "styled-components": "^5.3.8"
+    "styled-components": "^5.3.8",
+    "sweetalert2": "^11.10.6"
   },
   "scripts": {
     "start": "react-scripts start",

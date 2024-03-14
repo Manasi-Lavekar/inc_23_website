@@ -25,11 +25,11 @@ const eventData = [
         name: "Naman",
         phone: "84464 55659",
       },
-      // {
-      //   name: "Mrugank",
-      //   phone: "7083823772"
+      {
+        name: "Ayush",
+        phone: "83294 65811"
 
-      // },
+      },
       // {
       //   name: "Vrushali",
       //   phone: "9766176681"

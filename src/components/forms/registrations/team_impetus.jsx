@@ -619,7 +619,7 @@ function TeamImpetus() {
             if (property === "tech_Transaction_id") continue;
             if (property === "techfiesta") continue;
             if (property === "Transaction_id") continue;
-            console.log(property)
+            // console.log(property)
             toast.warn("Please enter all fields!");
             return;
           } else if (form2.techfiesta === "0" && form2.isInternational === "1") {
@@ -636,7 +636,7 @@ function TeamImpetus() {
             if (property === "state") continue;
             if (property === "district") continue;
             if (property === "locality") continue;
-            console.log("tech inter", property)
+            // console.log("tech inter", property)
             toast.warn("Please enter all fields!");
             return;
           } else if (form2.techfiesta === "1") {
@@ -646,7 +646,7 @@ function TeamImpetus() {
             // if (property === "department") continue;
             // if (property === "group_id") continue;
             if (property === "reason_of_mode" && form2["mode"] === "1") continue;
-            console.log("tech", property)
+            // console.log("tech", property)
             toast.warn("Please enter all fields!");
             return;
           }
@@ -659,7 +659,7 @@ function TeamImpetus() {
             if (property === "tech_Transaction_id") continue;
             if (property === "techfiesta") continue;
 
-            console.log(property)
+            // console.log(property)
             toast.warn("Please enter all fields!");
             return;
           }
@@ -927,7 +927,7 @@ function TeamImpetus() {
                     showWordCountCondition="true"
 
                   ></InputBox>
-                  <p className={`text-gray-500 px-2 py-1 rounded-lg flex justify-end -mt-5 md:-my-5`}>{wordCount}/250 words</p>
+                  <p className={`text-gray-500 px-2 py-1 rounded-lg flex justify-end -mt-5 md:-my-5`}>{wordCount}/200 words</p>
                   <RadioButtons
                     label="  Can you show a demo of your project?"
                     options={demo_arr}
@@ -961,47 +961,47 @@ function TeamImpetus() {
 
                   {/* MODAL  */}
                   {isOpen && (
-                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-50">
-                      <div className="w-80 md:w-1/3 bg-light_blue p-6 rounded-xl border border-white border-3">
-                        <div className="flex justify-between items-center">
-                          <h1 className="text-3xl font-bold text-white">Instructions</h1>
-                          <button onClick={closeModal} className="text-white font-bold text-4xl">&times;</button>
-                        </div>
-                        <div className="w-68 md:w-[28rem] text-white mt-5">
-                          <ul className="list-disc list-inside text-lg md:text-xl">
-                            <li className="pl-2">
-                              After filling details of each member, <b>click</b>
-                            </li>
+                  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-50">
+                    <div className="w-[22rem] md:w-[30rem] bg-light_blue p-6 rounded-xl border border-white border-3">
+                      <div className="flex justify-between items-center">
+                        <h1 className="text-3xl font-bold text-white">Instructions</h1>
+                        <button onClick={closeModal} className="text-white font-bold text-4xl">&times;</button>
+                      </div>
+                      <div className="w-68 md:w-[28rem] text-white mt-5">
+                        <ul className="list-disc list-inside text-lg md:text-xl">
+                          <li className="pl-2">
+                            After filling details of each member, <b>click</b>
+                          </li>
 
-                            <div className=' mt-2 opacity-100 flex items-center  justify-center text-lg'>
-                              <div className='bg-[#0b1e47] rounded-xl border-2 border-gold'>
-                                <button disabled className='px-2 md:px-6 py-4 text-white font-semibold border border-transparent focus:outline-0 rounded-xl transition-all duration-300  bg-faint_blue/10'><span>
-                                  {`add member- `}
-                                  <span style={{ color: 'gold', fontWeight: 'bold', textTransform: 'uppercase' }}>
-                                    Om
-                                  </span>
-                                </span></button>
+                          <div className=' mt-2 opacity-100 flex items-center  justify-center text-lg'>
+                            <div className='bg-[#0b1e47] rounded-xl border-2 border-gold'>
+                              <button disabled className='px-2 md:px-6 py-4 text-white font-semibold border border-transparent focus:outline-0 rounded-xl transition-all duration-300  bg-faint_blue/10'><span>
+                                {`add member- `}
+                                <span style={{ color: 'gold', fontWeight: 'bold', textTransform: 'uppercase' }}>
+                                  Om
+                                </span>
+                              </span></button>
 
-                              </div>
                             </div>
-                            <br />
-                            <li className="pl-2 w-68">
-                              To add a new member, click
+                          </div>
+                          <br />
+                          <li className="pl-2 w-68">
+                            To add a new member, click
 
-                            </li>
-                            <div className='mt-2 w-full opacity-100 flex items-center   justify-center text-lg'>
-                              <div className='bg-[#0b1e47] mb-2 rounded-xl border-2 border-gold'>
-                                <button disabled className='px-2 md:px-6 py-4 text-white font-semibold border border-transparent focus:outline-0 rounded-xl transition-all duration-300  bg-faint_blue/10'>
-                                  add another member
-                                </button>
-                              </div>
+                          </li>
+                          <div className='mt-2 w-full opacity-100 flex items-center   justify-center text-lg'>
+                            <div className='bg-[#0b1e47] mb-2 rounded-xl border-2 border-gold'>
+                              <button disabled className='px-2 md:px-6 py-4 text-white font-semibold border border-transparent focus:outline-0 rounded-xl transition-all duration-300  bg-faint_blue/10'>
+                                add another member
+                              </button>
                             </div>
-                            <li>For any errors in the form try clearing browser cookies </li>
-                          </ul>
-                        </div>
+                          </div>
+                          <li>For any errors in the form try clearing browser cookies </li>
+                        </ul>
                       </div>
                     </div>
-                  )}
+                  </div>
+                )}
 
                   {formFields.map((form, index) => {
                     return (

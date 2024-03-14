@@ -94,11 +94,11 @@ function ReferralImpetus() {
             judges: [...judgeDetails],
             eventName: eventName
         };
-        console.log(referralDetails)
+        // console.log(referralDetails)
 
         referralConcepts.mutate(referralDetails, {
             onSuccess: (res) => {
-                console.log(res)
+                // console.log(res)
                 toast.success('Judges Referred Successfully!');
                 setSuccess(true);
                 setIsLoading(false);

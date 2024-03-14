@@ -428,7 +428,7 @@ function TeamPradnya() {
 
       setFormStep((currentStep) => currentStep + 1);
       setActiveStep((activeStep) => activeStep + 1);
-      console.log(formStep, activeStep)
+      // console.log(formStep, activeStep)
     }
     if (formStep === 2) {
       // console.log(form2);
@@ -440,7 +440,7 @@ function TeamPradnya() {
             if (property === "reason_of_mode" && form2["mode"] === "1") continue;
             if (property === "referral") continue;
             if (property === "district") continue;
-            console.log(property)
+            // console.log(property)
             toast.warn("Please enter all fields!");
             return;
           }
@@ -469,14 +469,14 @@ function TeamPradnya() {
                 setPaymentStatus(true);
                 setFormStep((currentStep) => currentStep + 1);
                 setActiveStep((activeStep) => activeStep + 1);
-                console.log(formStep, activeStep)
+                // console.log(formStep, activeStep)
               },
             });
           } else {
             toast.success("Completed Step 3️⃣ !", { icon: "✅" });
             setFormStep((currentStep) => currentStep + 1);
             setActiveStep((activeStep) => activeStep + 1);
-            console.log(formStep, activeStep)
+            // console.log(formStep, activeStep)
           }
         },
       });
@@ -497,7 +497,7 @@ function TeamPradnya() {
             // setFormStep((currentStep) => currentStep + 1);
             setActiveStep((activeStep) => activeStep + 1);
             setPaymentStatus(true);
-            console.log(formStep, activeStep)
+            // console.log(formStep, activeStep)
           },
         }
       );
@@ -580,7 +580,7 @@ function TeamPradnya() {
               {formStep === 1 && (<>
                 {isOpen && (
                   <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-50">
-                    <div className="w-80 md:w-1/3 bg-light_blue p-6 rounded-xl border border-white border-3">
+                    <div className="w-[22rem] md:w-[30rem] bg-light_blue p-6 rounded-xl border border-white border-3">
                       <div className="flex justify-between items-center">
                         <h1 className="text-3xl font-bold text-white">Instructions</h1>
                         <button onClick={closeModal} className="text-white font-bold text-4xl">&times;</button>

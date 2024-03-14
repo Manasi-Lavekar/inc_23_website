@@ -6,9 +6,9 @@ import { useRef } from "react";
 
 function JudgeAllocation() {
   const { jid } = useParams();
-  console.log(jid)
+  // console.log(jid)
   const { data: judgeData, isLoading: isJudgeLoading } = useGetJudge(jid)
-  console.log(judgeData)
+  // console.log(judgeData)
   const navigate = useNavigate()
   const pidRef = useRef()
 
@@ -48,7 +48,7 @@ function JudgeAllocation() {
               <h1 className="text-4xl text-gold p-6 font-bold">Concepts</h1>
             )}
             {judgeData?.data["concepts"]?.length > 0 &&
-            judgeData?.data["concepts"]?.map((project) => (
+              judgeData?.data["concepts"]?.map((project) => (
                 <div
                   key={project.pid}
                   className="rounded-lg outline-dashed outline-2 outline-offset-[3px] my-2 outline-light_blue px-4 py-2 bg-faint_blue/10 mb-3 w-[100%] md:w-[90%]"
@@ -101,11 +101,12 @@ function JudgeAllocation() {
                   ></Buttons>
                 </div>
               ))}
+              
             {judgeData?.data["impetus"]?.length > 0 && (
               <h1 className="text-4xl text-gold p-6 font-bold">Impetus</h1>
             )}
             {judgeData?.data["impetus"]?.length > 0 &&
-            judgeData?.data["impetus"].map((project) => (
+              judgeData?.data["impetus"].map((project) => (
                 <div
                   key={project.pid}
                   className="rounded-lg outline-dashed outline-2 outline-offset-[3px] my-2 outline-light_blue px-4 py-2 bg-faint_blue/10 mb-3 w-[100%] md:w-[90%]"

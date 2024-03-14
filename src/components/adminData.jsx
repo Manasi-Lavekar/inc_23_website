@@ -12,6 +12,7 @@ function AdminData() {
 
   const useEventData = (eventName) => {
     const { isLoading, data } = useGetRegistrations(eventName);
+    // console.log(data)
     const [compCount, setCompCount] = useState(0);
     const [itCount, setItCount] = useState(0);
     const [entcCount, setEntcCount] = useState(0);
@@ -107,7 +108,7 @@ function AdminData() {
       {eventName === "concepts" && (
         <div className="grid grid-cols-3 gap-4">
           <div className="bg-gold rounded-lg p-4">
-            <h3 className="text-lg font-semibold">Computer:</h3>
+            <h3 className="text-lg font-semibold">CM:</h3>
             <p className="text-lg">{compCount}</p>
           </div>
           <div className="bg-gold rounded-lg p-4">

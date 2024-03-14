@@ -318,7 +318,7 @@ function Allocations() {
   function selectOne(row) {
     switch (method) {
       case 'judge_to_projects':
-        console.log(row);
+        // console.log(row);
         if (jids.length === 0) setJIDS([row.jid])
         else if (jids.length === 1 && jids.includes(row.jid)) setJIDS([])
         else {
@@ -359,7 +359,7 @@ function Allocations() {
         }
       })
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       toast(`Something went wrong ${error.message}`, { type: 'error' })
     }
   }

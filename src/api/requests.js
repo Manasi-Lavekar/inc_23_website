@@ -29,7 +29,7 @@ const evaluateProject = (eventName) => async (data) => await backend.post(`/judg
 const getJudge = (jid) => async () => await backend.get(`/judge/${jid}`)
 const getLabAllocations = (eventName) => async () => await backend.get(`/allocations/${eventName}/labs`);
 const getMemberDetails = (eventName) => async () => await backend.get(`/events/${eventName}/getmemberdetails`);
-
+const getAllocatedProjects = (jid) => async  ()=> await backend.get(`/allocations/projects/${jid}`)
 // Referral 
 const referralConcepts = () => async (data) => await backend.post(`/referral/concepts`, data);
 
@@ -54,5 +54,6 @@ export {
     getJudge,
     getLabAllocations,
     getMemberDetails,
-    referralConcepts
+    referralConcepts,
+    getAllocatedProjects
 }

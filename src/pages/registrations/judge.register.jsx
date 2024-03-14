@@ -32,7 +32,7 @@ const isPICT = [
 
 function JudgeForm() {
     const { eventName } = useParams()
-    console.log(eventName)
+    // console.log(eventName)
 
     const [judge, setJudge] = useState({
         'events': eventName,
@@ -59,7 +59,7 @@ function JudgeForm() {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target
-        console.log(judge)
+        // console.log(judge)
         setJudge(prevState => {
             errors[name] !== '' && setErrors(prevState => ({ ...prevState, [name]: '' }))
             return { ...prevState, [name]: value }
@@ -95,7 +95,7 @@ function JudgeForm() {
             },
         });
     }
-    console.log(judge)
+    // console.log(judge)
     return (
         <>
             <FormsBanner eventName={`JUDGES REGISTRATION - ${eventName} `} eventDescription=" Please register to join us and make InC'24 a grand success!" />

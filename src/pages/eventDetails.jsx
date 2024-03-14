@@ -195,7 +195,7 @@ function EventDetails(props) {
   let { eventName } = useParams();
   const _404Navigator = useNavigate();
   const fetchName = () => {
-    console.log(eventName);
+    // console.log(eventName);
 
     if (eventName === "impetus") setEventDetail(eventsData.impetus);
     else if (eventName === "pradnya") setEventDetail(eventsData.pradnya);

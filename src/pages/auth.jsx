@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useLoginAdmin } from '../hooks/admin.hooks';
 import { Buttons, FormsBanner, InputBox, NoteBox, toast } from '../components';
 import './styles/auth.css';
+import Cookies from 'js-cookie';
 
 import login from '../assets/images/login.png';
 
@@ -22,12 +23,13 @@ function Auth() {
         e.preventDefault()
         adminLoginMutation.mutate({ username: usernameRef.current.value, password: passwordRef.current.value }, {
             onSuccess: (data) => {
-                console.log(data)
+                // console.log(data)
                 setErrors(initialErrors)
                 toast.success('Login Successful', { icon: '👍' })
-                console.log(data.data.jid)
+                // console.log(data.data.jid)
+                Cookies.set('jid', data.data.jid);
                 if (data.data.jid) loginNavigator(`/judge/${data.data.jid}`, { replace: true })
-                else loginNavigator('/admin')
+                else loginNavigator('/admin/stats')
                 return
             }
         })

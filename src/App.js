@@ -20,10 +20,13 @@ function MainApp() {
   const [showNavbar, setShowNavbar] = useState(true);
 
   useEffect(() => {
-    const isAdminRoute = window.location.pathname.startsWith('/admin');
-    setShowNavbar(!isAdminRoute);
 
+    const isAuth = window.location.pathname.startsWith('/auth');
+    const isJudgeRoute = window.location.pathname.startsWith('/judge');
+    const isAdminRoute = window.location.pathname.startsWith('/admin');
+    setShowNavbar(!(isAdminRoute || isJudgeRoute || isAuth));
   }, []);
+
 
 
   return (
@@ -52,7 +55,6 @@ function MainApp() {
         <Route path='/committee' element={<Committee />} />
         {/* REFERRAL FORMS  */}
         <Route path='/referral/*' element={<Referral />} />
-
 
         {process.env.REACT_APP_ENVIRONMENT === 'development' &&
           <Route path='/test' element={

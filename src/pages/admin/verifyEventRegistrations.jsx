@@ -11,7 +11,7 @@ function VerifyEventRegistration() {
     const verifyPaymentMutation = useVerifyPayment(event.eventName)
 
 
-    if (data) console.log(data)
+    // if (data) console.log(data)
 
     const options = [
         {

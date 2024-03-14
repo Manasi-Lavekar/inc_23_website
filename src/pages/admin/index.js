@@ -13,7 +13,7 @@ function Admin() {
         <>
             <AdminNavBar />
             <Routes>
-                <Route path='/' element={<Dashboard />} />
+                <Route path='/stats' element={<Dashboard />} />
                 <Route path='/events/registrations/verify' element={<VerifyEventRegistration />} />
                 <Route path='/events/registrations/view' element={<ViewEventRegistrations />} />
                 <Route path='/judges/registrations/view' element={<ViewJudges />} />

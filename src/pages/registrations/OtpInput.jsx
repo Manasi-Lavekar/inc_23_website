@@ -18,7 +18,7 @@ const OtpInput = ({ length = 4, onOtpSubmit = () => { } }) => {
         if (isNaN(value)) return; // Not a number
 
         const newOtp = [...otp]; //  copy of OTP array
-        console.log(newOtp); //
+        // console.log(newOtp); //
         // allow only one input
         newOtp[index] = value.substring(value.length - 1);
         setotp(newOtp); // it is asynchronous so, after this the value of otp is not directly updated that's why we are using newOtp
