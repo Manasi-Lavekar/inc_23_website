@@ -23,13 +23,17 @@ const eventData = [
     contact: [
       {
         name: "Naman",
-        phone: "84464 55659",
+        phone: "8446455659",
       },
       {
         name: "Ayush",
-        phone: "83294 65811"
+        phone: "8329465811"
 
       },
+      {
+        name: "Advait",
+        phone: "9130012196"
+      }
       // {
       //   name: "Vrushali",
       //   phone: "9766176681"
@@ -56,8 +60,12 @@ const eventData = [
     contact: [
       {
         name: "Srushti",
-        phone: "99231 49170",
+        phone: "9923149170",
       },
+      {
+        name: "Shreyash",
+        phone: "7385883755"
+      }
       // {
       //   name: "Kalpesh",
       //   phone: "7769945077"
@@ -90,6 +98,10 @@ const eventData = [
         name: "Manavi",
         phone: "7499953568",
       },
+      {
+        name: "Atharva",
+        phone: "8007370842"
+      }
     ]
   },
   {
@@ -104,7 +116,7 @@ const eventData = [
 
     contact: [{
       name: "Atharva",
-      phone: "82370 95572",
+      phone: "8237095572",
     },
 
     ],

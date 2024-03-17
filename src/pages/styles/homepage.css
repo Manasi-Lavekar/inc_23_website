@@ -1,0 +1,21 @@
+.notice {
+    background-color: rgb(247, 162, 5);
+    overflow: hidden;
+    width: 100%;
+}
+
+.notice-content{
+    font-weight: bold;
+    font-size: 18px;
+    animation: moveNotice 15s linear infinite;
+    color: #010642;
+}
+@keyframes moveNotice {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(-20%);
+    }
+}
+
