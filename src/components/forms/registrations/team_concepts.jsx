@@ -1,5 +1,5 @@
 import "../styles/event_registrations.css";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import styled from "styled-components";
 import {
   InputBox,
@@ -10,8 +10,11 @@ import {
   RadioButtons,
   toast,
   NoteBox,
+  Table,
 } from "../../index.js";
 import {
+  useDeleteMemberDetails,
+  useGetMemberDetails,
   useRegisterStep1,
   useRegisterStep2,
   useRegisterStep3,
@@ -26,7 +29,7 @@ import {
 } from "../../../static/data";
 
 import payment_qr from "../../../assets/payment QR/payment_qr.jpg";
-import { MdInfoOutline } from "react-icons/md";
+import { MdDelete, MdInfoOutline } from "react-icons/md";
 import { CgClose } from "react-icons/cg";
 import { EventDetails } from '../../../pages'
 
@@ -283,6 +286,8 @@ function TeamConcepts() {
   });
   const [errors0, setErrors0] = useState(initialErrorsForm0);
   const registerUserMutationForm0 = useRegisterStep1(setErrors0, "concepts");
+  const [formData, setformData] = useState([])
+  const { data } = useGetMemberDetails("concepts");
   const handleInputChange0 = (e) => {
     const { name, value } = e.target;
     setForm0((prevState) => {
@@ -303,8 +308,7 @@ function TeamConcepts() {
   };
 
   //form1
-
-  const [formFields, setFormFields] = useState([
+  const [formFields, setFormFields] = useState(
     {
       name: "",
       email: "",
@@ -312,9 +316,9 @@ function TeamConcepts() {
       gender: "SEL",
       member_id: "",
     },
-  ]);
+  );
 
-  const handleImageChange = (event, index) => {
+  const handleImageChange = (event) => {
     const file = event.target.files[0];
     const maxSizeInBytes = 200 * 1024; // MAX 200 KB
 
@@ -323,24 +327,22 @@ function TeamConcepts() {
       event.target.value = '';
       return;
     }
-
-    let data = [...formFields];
-    data[index][event.target.name] = event.target.files[0];
-    setFormFields(data);
+    setFormFields((prevForm) => ({
+      ...prevForm,
+      [event.target.name]: event.target.files[0]
+    }));
   };
+
   const [errors1, setErrors1] = useState(initialErrorsForm1);
   const registerUserMutationForm1 = useRegisterStep2(setErrors1, "concepts");
   const [wordCount, setWordCount] = useState(0);
 
   const handleFormChange = (event, index) => {
     const { name, value } = event.target;
-    setFormFields((prevState) => {
-      errors1[name] !== "" &&
-        setErrors1((prevState) => ({ ...prevState, [name]: "" }));
-      let data = [...prevState];
-      data[index][name] = value;
-      return data;
-    });
+    setFormFields((prevForm) => ({
+      ...prevForm,
+      [name]: value
+    }));
   };
 
   useEffect(() => {
@@ -367,42 +369,57 @@ function TeamConcepts() {
   }
 
   const addFields = () => {
-    if (formFields.length < 6) {
-      for (const property in formFields.at(-1)) {
-        if (property === "name" && formFields.at(-1)[property] === "") {
+    // console.log(form1)
+    if (memberCount + 1 <= 5) {
+      for (const property in formFields) {
+        if (property === "name" && formFields[property] === "") {
           toast.warn("Please enter name");
           return;
-        } else if (property === "email" && !validateEmail(formFields.at(-1)[property])) {
+        } else if (property === "email" && !validateEmail(formFields[property])) {
           toast.warn("Please enter a valid E-mail address");
           return;
-        } else if (property === "phone" && formFields.at(-1)[property].length < 11) {
+        } else if (property === "phone" && formFields[property].length < 11) {
           toast.warn("Please enter a valid phone number with country code");
           return;
-        } else if (property === "gender" && formFields.at(-1)[property] === "SEL") {
+        } else if (property === "gender" && formFields[property] === "SEL") {
           toast.warn("Please enter your gender");
           return;
-        } else if (property === "member_id" && formFields.at(-1)[property] === "") {
+        } else if (property === "member_id" && formFields[property] === "") {
           toast.warn("Please upload the ID");
           return;
         }
       }
 
-      const memberFormData = new FormData();
-      memberFormData.append("member_id", formFields.at(-1).member_id);
-      const tempMemberDetails = { ...formFields.at(-1) };
-      delete tempMemberDetails.member_id;
-      memberFormData.append("body", JSON.stringify(tempMemberDetails));
-      registerUserMutationForm1.mutate(memberFormData, {
-        onSuccess: () => {
-          setErrors1(initialErrorsForm1);
-          SetMemberCount((memberCount) => memberCount + 1);
-          toast.success(`member ${memberCount + 1} added !`, { icon: "✅" });
-        }
-      });
-      return;
+      if (formData.length < 6) {
+        const memberFormData = new FormData();
+        memberFormData.append("member_id", formFields.member_id);
+        const tempMemberDetails = { ...formFields };
+        delete tempMemberDetails.member_id;
+        memberFormData.append("body", JSON.stringify(tempMemberDetails));
+        registerUserMutationForm1.mutate(memberFormData, {
+          onSuccess: () => {
+            setErrors1(initialErrorsForm1);
+            setformData((prev) => [...prev, formFields]);
+            setFormFields({
+              name: "",
+              email: "",
+              phone: "",
+              gender: "SEL",
+              member_id: "",
+              codechef_id: ""
+            });
+            SetMemberCount((prevCount) => prevCount + 1);
+            toast.success(`Member ${memberCount + 1} added!`, { icon: "✅" });
+          }
+        });
+      } else {
+        toast.warn("Maximum 2 members are allowed");
+      }
+
+    } else {
+      toast.warn("Maximum 5 members are allowed");
     }
-    toast.warn("Maximum 5 members are allowed");
-  };
+  }
 
   const addAnotherMember = () => {
     if (formFields.length > 5) {
@@ -658,7 +675,7 @@ function TeamConcepts() {
       });
     }
     if (formStep === 1) {
-      if (memberCount < 2) {
+      if (formData.length < 2) {
         toast.warn("At least two member needed!");
         return;
       }
@@ -745,7 +762,7 @@ function TeamConcepts() {
                 toast.success("Completed Registration !", { icon: "✅" });
                 setPaymentStatus(true);
                 setFormStep((currentStep) => currentStep + 1);
-                setActiveStep((activeStep) => activeStep + 1);
+                setActiveStep((activeStep) => activeStep + 2);
               },
             });
           } else {
@@ -798,7 +815,117 @@ function TeamConcepts() {
   const event_detail_toggle = () => {
     setShowPopup(true)
   }
-  const event = "Concepts";
+  const event = "Impetus";
+  const deleteMemberData = useDeleteMemberDetails("concepts")
+  const [deleteLoading, setDeleteLoading] = useState(false)
+  const deleteMember = (e, index) => {
+    e.preventDefault();
+    setDeleteLoading(true)
+
+    deleteMemberData.mutate(index, {
+      onSuccess: () => {
+        toast.success(`Deleted ${formData[index].name} from your team !`, { icon: "✅" });
+        setformData((prevFormData) => {
+          const newFormData = [...prevFormData];
+          newFormData.splice(index, 1);
+          setDeleteLoading(false);
+          SetMemberCount((prevCount) => prevCount - 1)
+          return newFormData;
+        });
+      }
+
+    });
+
+    setDeleteLoading(false)
+  };
+
+  // ------ COLUMNS -------
+  const columns = useMemo(() => [
+    {
+      name: 'Delete',
+      selector: (row, index) => (
+        <button
+          title="Delete"
+          onClick={(e) => deleteMember(e, index)}
+          className="flex justify-center items-center text-2xl text-red-500 hover:scale-110 duration-300 transition"
+        // disabled={deleteMemberData.isLoading}
+        >
+          {deleteLoading === true ? "Loading..." : <MdDelete />}
+        </button>
+      ),
+      cellExport: (row, index) => index + 1,
+      width: '50px',
+      wrap: true,
+      sortable: true,
+    },
+
+    // {
+    //   name: 'Delete',
+    //   selector: (row, index) => (
+    //     <Buttons
+    //       value={
+    //         <>
+    //           <span>
+    //             {`Del`}
+
+    //           </span>
+    //         </>
+    //       }
+    //       onClick={(e) => deleteMember(e, index)}
+    //       classNames="my-2"
+    //       loading={deleteMemberData.isLoading}
+    //     ></Buttons>
+    //   ),
+    //   cellExport: (row, index) => index + 1,
+    //   width: '300px',
+    //   wrap: true,
+    //   sortable: true,
+    // },
+
+
+    {
+      name: 'Name',
+      selector: row => row.name,
+      cellExport: row => row.name,
+      width: '200px',
+      wrap: true,
+      sortable: true,
+    },
+    {
+      name: 'email',
+      selector: row => row.email,
+      cellExport: row => row.email,
+      width: '260px',
+      wrap: true,
+      sortable: true,
+    },
+    {
+      name: 'phone',
+      selector: row => row.phone,
+      cellExport: row => row.phone,
+      width: '160px',
+      wrap: true,
+      sortable: true,
+    },
+    {
+      name: 'Gender',
+      selector: row => row.gender,
+      cellExport: row => row.gender,
+      width: '100px',
+      wrap: true,
+      sortable: true,
+    },
+
+  ], [formData])
+
+  useEffect(() => {
+    if (data) {
+      if (data?.data?.step_2?.length > 0) setformData(data?.data?.step_2)
+      // console.log(formData)
+      SetMemberCount(formData.length)
+    }
+  }, [data])
+
 
   return (
     <MainContainer>
@@ -826,24 +953,24 @@ function TeamConcepts() {
 
               {/* NOTEBOX  */}
               {formStep < 3 &&
-                < div className="w-full rounded-lg outline-dashed outline-2 outline-offset-[3px] outline-light_blue px-4 py-2 bg-faint_blue/10 mb-3 flex text-md justify-center items-center  md:text-md">
-                  <div className="flex space-y-2 md:space-y-0 flex-col md:flex-row md:space-x-5 justify-center items-center">
-                    <div className=" md:my-0 px-2 flex justify-center items-center md:px-6 py-4 font-semibold  border-transparent focus:outline-0 rounded-xl bg-faint_blue/30 transition-all duration-300 text-gold hover:border-light_blue hover:bg-faint_blue/10 border-dashed border-2 border-white cursor-pointer text-md" onClick={event_detail_toggle}>
-                      Show event details
+                <div className="w-full rounded-lg outline-dashed outline-2 outline-offset-[3px] outline-light_blue px-4 py-2 bg-faint_blue/10 mb-3 flex text-md justify-center items-center text-[0.9rem] lg:text-md">
+                  <div className="flex flex-col md:flex-row lg:grid md:grid-cols-3 gap-2 md:gap-0 lg:grid-cols-5 space-y-2 md:space-y-0 md:space-x-5 justify-center items-center">
+                    <div className=" md:my-0 px-2 flex justify-center items-center  md:px-6 py-4 font-semibold  border-transparent focus:outline-0 rounded-xl bg-faint_blue/30 transition-all duration-300 text-gold hover:border-light_blue hover:bg-faint_blue/10 border-dashed border-2 border-white cursor-pointer" onClick={event_detail_toggle}>
+                      Event details
                     </div>
-                    {formStep === 1 ? <div className="px-2 flex justify-center items-center  md:px-6 py-4 font-semibold  border-transparent focus:outline-0 rounded-xl bg-faint_blue/30 transition-all duration-300 text-gold hover:border-light_blue hover:bg-faint_blue/10 border-dashed border-2 border-white cursor-pointer" onClick={ModalToggle} ><MdInfoOutline className=" mr-1" />Instructions</div> : ""}
-                    <div className="">
-                      <li className="  md:font-light md:leading-6 ">₹ 300/- For National Entries
+                    {formStep === 1 ? <div className="px-2 flex justify-center items-center  md:px-6 py-4 font-semibold  border-transparent focus:outline-0 rounded-xl bg-faint_blue/30 transition-all duration-300 text-gold hover:border-light_blue hover:bg-faint_blue/10 border-dashed border-2 border-white cursor-pointer" onClick={ModalToggle} ><MdInfoOutline className="text-2xl mr-1 " />Instructions</div> : ""}
+
+                    <div className="md:col-span-3">
+                      <li className="  md:font-light md:leading-6  pl-2">₹ 100/- For National Entries
                       </li>
-                      <li className="  md:font-light md:leading-6 ">
-                        Free for International Entries
+                      <li className="  md:font-light md:leading-6  pl-2">
+                        Free for out of Maharashtra and International Entries
                       </li>
                     </div>
 
                   </div>
                 </div>
               }
-
               {/* form 0 */}
               {formStep === 0 && (
                 <>
@@ -983,9 +1110,11 @@ function TeamConcepts() {
               {/* form 1 */}
               {formStep === 1 && (
                 <>
+
+                  {/* MODAL  */}
                   {isOpen && (
                     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-50">
-                      <div className="w-[22rem] md:w-[30rem] bg-light_blue p-6 rounded-xl border border-white border-3">
+                      <div className="w-[22rem] sm:w-[30rem] bg-light_blue p-6 rounded-xl border border-white border-3">
                         <div className="flex justify-between items-center">
                           <h1 className="text-3xl font-bold text-white">Instructions</h1>
                           <button onClick={closeModal} className="text-white font-bold text-4xl">&times;</button>
@@ -999,143 +1128,136 @@ function TeamConcepts() {
                             <div className=' mt-2 opacity-100 flex items-center  justify-center text-lg'>
                               <div className='bg-[#0b1e47] rounded-xl border-2 border-gold'>
                                 <button disabled className='px-2 md:px-6 py-4 text-white font-semibold border border-transparent focus:outline-0 rounded-xl transition-all duration-300  bg-faint_blue/10'><span>
-                                  {`add member- `}
-                                  <span style={{ color: 'gold', fontWeight: 'bold', textTransform: 'uppercase' }}>
-                                    Om
-                                  </span>
+                                  {`add member `}
                                 </span></button>
-
                               </div>
                             </div>
                             <br />
-                            <li className="pl-2 w-68">
-                              To add a new member, click
-
-                            </li>
-                            <div className='mt-2 w-full opacity-100 flex items-center   justify-center text-lg'>
-                              <div className='bg-[#0b1e47] mb-2 rounded-xl border-2 border-gold'>
-                                <button disabled className='px-2 md:px-6 py-4 text-white font-semibold border border-transparent focus:outline-0 rounded-xl transition-all duration-300  bg-faint_blue/10'>
-                                  add another member
-                                </button>
-                              </div>
-                            </div>
                             <li>For any errors in the form try clearing browser cookies </li>
                           </ul>
                         </div>
                       </div>
                     </div>
                   )}
-                  {formFields.map((form, index) => {
+
+                  {/* {formFields.map((form, index) => {
                     return (
                       <>
                         <h1 className={`input-label font-medium text-white border-red-500 p-2 ${index === 0 ? 'w-56' : 'w-28'} border-2 text-lg after:ml-0.5 after:text-gold rounded-md shadow-md bg-gradient-to-r from-yellow-300 to-yellow-500 text-center my-2`}>
                           Member {index + 1} {index === 0 ? "- Team Leader" : ""}
-                        </h1>
+                        </h1> */}
 
-                        <div key={index}>
-                          <InputBox
-                            label="Name"
-                            name="name"
-                            type="text"
-                            placeholder="name "
+                  <div>
+                    <InputBox
+                      label="Name"
+                      name="name"
+                      type="text"
+                      placeholder="name "
+                      required
+                      error={errors1.name}
+                      onChange={(event) => handleFormChange(event)}
+                      value={formFields.name}
+                      tip={"Name should be between 3 and 50 characters(both inclusive) long and contains only alphabetical characters."}
+                    />
+                    <InputBox
+                      label="Email ID"
+                      name="email"
+                      type="text"
+                      placeholder="email "
+                      required
+                      error={errors1.email}
+                      onChange={(event) => handleFormChange(event)}
+                      value={formFields.email}
+                    />
+                    <div className="md:flex">
+                      <div className="mr-1 w-full md:w-1/2">
+                        <InputBox
+                          label="Phone No"
+                          name="phone"
+                          type="tel"
+                          placeholder="+917507224919"
+                          required
+                          error={errors1.phone}
+                          onChange={(event) => handleFormChange(event)}
+                          value={formFields.phone}
+                          tip={`Enter Country Code (eg. +91) eg. +917507224919`}
+                        />
+                      </div>
+                      <div className="input-box-dropdown w-full mb-4 relative">
+                        <label
+                          className={`input-label font-medium mb-1 text-white text-lg flex`}
+                        >
+                          {"Gender"}
+                          <h1 className="text-gold">*</h1>
+                        </label>
+                        <div className="relative inline-block w-full">
+                          <select
+                            name={"gender"}
+                            value={formFields.gender}
+                            onChange={(event) => handleFormChange(event)}
                             required
-                            error={errors1.name}
-                            onChange={(event) => handleFormChange(event, index)}
-                            value={form.name}
-                            tip={"Name should be between 3 and 50 characters(both inclusive) long and contains only alphabetical characters."}
-                          />
-                          <InputBox
-                            label="Email ID"
-                            name="email"
-                            type="text"
-                            placeholder="email "
-                            required
-                            error={errors1.email}
-                            onChange={(event) => handleFormChange(event, index)}
-                            value={form.email}
-                          />
-                          <div className="md:flex">
-                            <div className="mr-1 w-full md:w-1/2">
-                              <InputBox
-                                label="Phone No."
-                                name="phone"
-                                type="tel"
-                                placeholder="+917507224919"
-                                required
-                                error={errors1.phone}
-                                onChange={(event) => handleFormChange(event, index)}
-                                value={form.phone}
-                                tip={`Enter Country Code (eg. +91) eg. +917507224919`}
-                              />
-                            </div>
-                            <div className="input-box-dropdown w-full mb-4 relative">
-                              <label
-                                className={`input-label font-medium mb-1 text-white text-lg flex`}
+                            error={errors1.gender}
+                            className={`w-full  h-10 pl-4 pr-8 bg-[#0B1E47] text-base text-gold placeholder-gray-500 border rounded-lg appearance-none focus:outline-none focus:shadow-outline-blue`}
+                          >
+                            {gender_type.map((option) => (
+                              <option
+                                key={option?.value}
+                                value={option?.value}
+                                className={`py-1 bg-[#0B1E47] ${option?.className || ""
+                                  }`}
                               >
-                                {"Gender"}
-                                <h1 className="text-gold">*</h1>
-                              </label>
-                              <div className="relative inline-block w-full">
-                                <select
-                                  name={"gender"}
-                                  value={form.gender}
-                                  onChange={(event) => handleFormChange(event, index)}
-                                  required
-                                  error={errors1.gender}
-                                  className={`w-full h-10 pl-4 pr-8 bg-[#0B1E47] text-base text-gold placeholder-gray-500 border rounded-lg appearance-none focus:outline-none focus:shadow-outline-blue`}
-                                >
-                                  {gender_type.map((option) => (
-                                    <option
-                                      key={option?.value}
-                                      value={option?.value}
-                                      className={`py-1 bg-[#0B1E47] ${option?.className || ""
-                                        }`}
-                                    >
-                                      {option?.label}
-                                    </option>
-                                  ))}
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-                          <FileInputBox
-                            name="member_id"
-                            accept="image/png, image/jpeg"
-                            type="file"
-                            onChange={(e) => handleImageChange(e, index)}
-                            label="Upload college ID"
-                            required
-                            error={errors1.member_id}
-                          />
-                          <NoteBox title="please take note" text="accepted format: jpeg, png and less than 200kb" />
-
-                          {index == formFields.length - 1 && memberCount < 6 ? (
-                            <Buttons
-                              value={
-                                <>
-                                  <span>
-                                    {`add member- `}
-                                    <span style={{ color: 'gold', fontWeight: 'bold', textTransform: 'uppercase' }}>
-
-                                      {form.name.split(' ')[0]}
-                                    </span>
-                                  </span>
-                                </>
-                              }
-                              onClick={addFields}
-                              classNames="my-2"
-                              loading={registerUserMutationForm1.isLoading}
-                            />
-
-
-                          ) : <></>}
-                          <hr className="my-5 border-dashed border-gold" />
+                                {option?.label}
+                              </option>
+                            ))}
+                          </select>
                         </div>
+                      </div>
+                    </div>
+                    <FileInputBox
+                      name="member_id"
+                      accept="image/png, image/jpeg"
+                      type="file"
+                      onChange={(e) => handleImageChange(e)}
+                      label="Upload college ID"
+                      required
+                      error={errors1.member_id}
+                    />
+                    <NoteBox title="please take note" text="accepted format: jpeg, png and less than 200kb" />
 
-                      </>)
-                  })}
+                    {memberCount < 6 ? (
+                      <Buttons
+                        value={
+                          <>
+                            <span>
+                              {`add member`}
+
+                            </span>
+                          </>
+                        }
+                        onClick={addFields}
+                        classNames="my-2"
+                        loading={registerUserMutationForm1.isLoading}
+                      />
+                    ) : <></>}
+                    <hr className="my-5 border-dashed border-gold" />
+                  </div>
+
+
+
+
+                  <NoteBox
+                    title="Note"
+                    text="First Member in a team will be considered as Team Leader."
+                  />
+                  {/* -----ADDED MEMBERS------  */}
+                  <div className="mb-10 ">
+                    <div className="overflow-x-auto">
+                      <Table title={`Added Members`} columns={columns} data={formData} filter={false} print={false} export={false} pagination={false} keyField='pid' />
+                    </div>
+                  </div>
 
                 </>
+
               )}
               {/* form 2 */}
               {formStep === 2 && (

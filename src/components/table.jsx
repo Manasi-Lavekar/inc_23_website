@@ -108,7 +108,7 @@ const customStyles = {
         borderBottom: '2px solid black '
       },
     },
-    
+
     denseStyle: {
       minHeight: '1.75rem',
     },
@@ -235,7 +235,17 @@ function Table(props) {
   return (
     <div className={props.outerClassName}>
       <DataTableExtensions {...props} fileName={props.title} exportHeaders>
-        <DataTable {...props} pagination fixedHeader fixedHeaderScrollHeight='400px' highlightOnHover theme='inc_table_dark' progressPending={props.loading} customStyles={customStyles} />
+        <DataTable
+          {...props}
+          pagination={props.pagination === false ? false : true}
+          fixedHeader
+          fixedHeaderScrollHeight='400px'
+          highlightOnHover
+          theme='inc_table_dark'
+          progressPending={props.loading}
+          customStyles={customStyles}
+        />
+
       </DataTableExtensions>
     </div>
   );

@@ -1,5 +1,5 @@
 import "../styles/event_registrations.css";
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import { useState } from "react";
 import {
   InputBox,
@@ -8,8 +8,12 @@ import {
   toast,
   NoteBox,
   CloseMessage,
+  Table,
 } from "../../index.js";
 import {
+  useDeleteMemberDetails,
+  useGetMemberDetails,
+  useGetStep_2,
   useRegisterStep1,
   useRegisterStep2,
   useRegisterStep3,
@@ -22,9 +26,11 @@ import { useRef } from "react";
 import { year_arr, localTypes, paymentLinks, year_array, state_arr } from "../../../static/data";
 
 import payment_qr from "../../../assets/payment QR/payment_qr.jpg";
-import { MdInfoOutline } from "react-icons/md";
+import { MdDelete, MdInfoOutline } from "react-icons/md";
 import { CgClose } from "react-icons/cg";
 import { EventDetails } from '../../../pages'
+import axios from "axios";
+import { deleteMemberDetails } from "../../../api/requests.js";
 
 const MainContainer = styled.div`
   width: 100%;
@@ -198,7 +204,7 @@ function TeamPradnya() {
   const width = `${(100 / (totalSteps - 1)) * (activeStep - 1)}%`;
 
   //form1
-  const [form1, setForm1] = useState([
+  const [form1, setForm1] = useState(
     {
       name: "",
       email: "",
@@ -207,7 +213,7 @@ function TeamPradnya() {
       member_id: "",
       codechef_id: ""
     },
-  ]);
+  );
   const [tempform1, settempForm1] = useState([
     {
       name: "",
@@ -220,82 +226,79 @@ function TeamPradnya() {
   ]);
   const [errors1, setErrors1] = useState(initialErrorsForm1);
   const registerUserMutationForm1 = useRegisterStep2(setErrors1, "pradnya");
+  const { data } = useGetMemberDetails("pradnya");
+  const [members, setMembers] = useState([])
+  const [memberCount, setMemberCount] = useState(0);
+  const [formData, setformData] = useState([])
 
-  const handleFormChange = (event, index) => {
-
+  const handleFormChange = (event) => {
     const { name, value } = event.target;
-    // console.log(name, value);
-    setForm1((prevState) => {
-      errors1[name] !== "" &&
-        setErrors1((prevState) => ({ ...prevState, [name]: "" }));
-      let data = [...prevState];
-      data[index][name] = value;
-      return data;
-    });
+    setForm1((prevForm) => ({
+      ...prevForm,
+      [name]: value
+    }));
   };
-
+  // console.log(form1)
   function validateEmail(email) {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email);
   }
 
 
+
+
   const addfields = () => {
     // console.log(form1)
-    if (form1.length < 3) {
-      for (const property in form1.at(-1)) {
-        if (property === "name" && form1.at(-1)[property] === "") {
+    if (memberCount < 3) {
+      for (const property in form1) {
+        if (property === "name" && form1[property] === "") {
           toast.warn("Please enter name");
           return;
-        } else if (property === "email" && !validateEmail(form1.at(-1)[property])) {
+        } else if (property === "email" && !validateEmail(form1[property])) {
           toast.warn("Please enter a valid E-mail address");
           return;
-        } else if (property === "phone" && form1.at(-1)[property].length < 11) {
+        } else if (property === "phone" && form1[property].length < 11) {
           toast.warn("Please enter a valid phone number with country code");
           return;
-        } else if (property === "gender" && form1.at(-1)[property] === "SEL") {
+        } else if (property === "gender" && form1[property] === "SEL") {
           toast.warn("Please enter your gender");
           return;
-        } else if (property === "member_id" && form1.at(-1)[property] === "") {
+        } else if (property === "member_id" && form1[property] === "") {
           toast.warn("Please upload the ID");
           return;
-        } else if (property === "codechef_id" && form1.at(-1)[property] === "") {
-          // toast.warn("Plese add Codechef ID");
-          continue;
+        } else if (property === "codechef_id" && form1[property] === "") {
+          toast.warn("Plese add Codechef ID");
+          return;
         }
       }
 
-      const memberFormData = new FormData();
-      memberFormData.append("member_id", form1.at(-1).member_id);
-      const tempMemberDetails = { ...form1.at(-1) };
-      delete tempMemberDetails.member_id;
-      memberFormData.append("body", JSON.stringify(tempMemberDetails));
-      registerUserMutationForm1.mutate(memberFormData, {
-        onSuccess: () => {
-          setErrors1(initialErrorsForm1);
-          setMemberCount((memberCount) => memberCount + 1);
-          toast.success(`member ${memberCount + 1} added !`, { icon: "✅" });
-        }
-      });
-      return;
-    }
-    toast.warn("Maximum 2 members are allowed");
-  };
+      if (formData.length < 2) {
+        const memberFormData = new FormData();
+        memberFormData.append("member_id", form1.member_id);
+        const tempMemberDetails = { ...form1 };
+        delete tempMemberDetails.member_id;
+        memberFormData.append("body", JSON.stringify(tempMemberDetails));
+        registerUserMutationForm1.mutate(memberFormData, {
+          onSuccess: () => {
+            setErrors1(initialErrorsForm1);
+            setformData((prev) => [...prev, form1]);
+            setForm1({
+              name: "",
+              email: "",
+              phone: "",
+              gender: "SEL",
+              member_id: "",
+              codechef_id: ""
+            });
+            setMemberCount((prevCount) => prevCount + 1);
+            toast.success(`Member ${memberCount + 1} added!`, { icon: "✅" });
+          }
+        });
+      } else {
+        toast.warn("Maximum 2 members are allowed");
+      }
 
-  const addAnotherMember = () => {
-    if (form1.length > 1) {
-      toast.warn("Limit Reached !");
-      return;
     }
-    let object = {
-      name: "",
-      email: "",
-      phone: "",
-      gender: "SEL",
-      member_id: "",
-      codechef_id: ""
-    };
-    setForm1([...form1, object]);
   }
 
   const [form2, setForm2] = useState({
@@ -316,7 +319,7 @@ function TeamPradnya() {
   const registerUserMutationForm2 = useRegisterStep3(setErrors2, "pradnya");
 
   // File upload 
-  const handleImageChange = (event, index) => {
+  const handleImageChange = (event) => {
     const file = event.target.files[0];
     const maxSizeInBytes = 200 * 1024; // MAX 200 KB
 
@@ -325,10 +328,10 @@ function TeamPradnya() {
       event.target.value = '';
       return;
     }
-
-    let data = [...form1];
-    data[index][event.target.name] = event.target.files[0];
-    setForm1(data);
+    setForm1((prevForm) => ({
+      ...prevForm,
+      [event.target.name]: event.target.files[0]
+    }));
   };
 
   const handleInputChange2 = (e) => {
@@ -417,11 +420,11 @@ function TeamPradnya() {
     setActiveStep(activeStep - 1);
   };
 
-  const [memberCount, setMemberCount] = useState(0);
+
   const nextForm = (e) => {
     e.preventDefault();
     if (formStep === 1) {
-      if (memberCount === 0) {
+      if (formData.length === 0) {
         toast.warn("At least one member needed!");
         return;
       }
@@ -494,7 +497,7 @@ function TeamPradnya() {
         {
           onSuccess: () => {
             toast.success("Completed Step 4️⃣ !", { icon: "✅" });
-            // setFormStep((currentStep) => currentStep + 1);
+            setFormStep((currentStep) => currentStep + 1);
             setActiveStep((activeStep) => activeStep + 1);
             setPaymentStatus(true);
             // console.log(formStep, activeStep)
@@ -503,6 +506,29 @@ function TeamPradnya() {
       );
 
     }
+  };
+
+  const deleteMemberData = useDeleteMemberDetails("pradnya")
+  const [deleteLoading, setDeleteLoading] = useState(false)
+
+  const deleteMember = (e, index) => {
+    e.preventDefault();
+    setDeleteLoading(true)
+
+    deleteMemberData.mutate(index, {
+      onSuccess: () => {
+        toast.success(`Deleted ${formData[index].name} from your team !`, { icon: "✅" });
+        setformData((prevFormData) => {
+          const newFormData = [...prevFormData];
+          newFormData.splice(index, 1);
+          setMemberCount((prevCount) => prevCount - 1)
+          return newFormData;
+        });
+      }
+
+    });
+
+    setDeleteLoading(false)
   };
 
   const [showModal, setshowModal] = useState(false)
@@ -516,9 +542,6 @@ function TeamPradnya() {
     setIsOpen(false);
   }
   const [showPopup, setShowPopup] = useState(false);
-  const openPopup = () => {
-    setShowPopup(true);
-  };
 
   const closePopup = () => {
     setShowPopup(false);
@@ -529,6 +552,70 @@ function TeamPradnya() {
   }
   const event = "Pradnya";
 
+  // ------ COLUMNS -------
+  const columns = useMemo(() => [
+    {
+      name: 'Delete',
+      selector: (row, index) => (
+        <button
+          title="Delete"
+          onClick={(e) => deleteMember(e, index)}
+          className="flex justify-center items-center text-2xl text-red-500 hover:scale-110 duration-300 transition"
+        // disabled={deleteMemberData.isLoading}
+        >
+          {deleteLoading === true ? "Loading..." : <MdDelete />}
+        </button>
+      ),
+      cellExport: (row, index) => index + 1,
+      width: '50px',
+      wrap: true,
+      sortable: true,
+    },
+
+
+    {
+      name: 'Name',
+      selector: row => row.name,
+      cellExport: row => row.name,
+      width: '200px',
+      wrap: true,
+      sortable: true,
+    },
+    {
+      name: 'email',
+      selector: row => row.email,
+      cellExport: row => row.email,
+      width: '260px',
+      wrap: true,
+      sortable: true,
+    },
+    {
+      name: 'phone',
+      selector: row => row.phone,
+      cellExport: row => row.phone,
+      width: '160px',
+      wrap: true,
+      sortable: true,
+    },
+    {
+      name: 'Gender',
+      selector: row => row.gender,
+      cellExport: row => row.gender,
+      width: '100px',
+      wrap: true,
+      sortable: true,
+    },
+
+  ], [formData])
+
+
+
+  useEffect(() => {
+    if (data) {
+      if (data?.data?.step_2?.length > 0) setformData(data?.data?.step_2)
+      // console.log(members?.data?.step_2)
+    }
+  }, [data])
 
   return (
     <MainContainer>
@@ -556,18 +643,18 @@ function TeamPradnya() {
 
               {/* NOTEBOX  */}
               {formStep < 3 &&
-                < div className="w-full rounded-lg outline-dashed outline-2 outline-offset-[3px] outline-light_blue px-4 py-2 bg-faint_blue/10 mb-3 flex text-md justify-center items-center text-[0.9rem] md:text-lg">
-                  <div className="flex space-y-2 md:space-y-0 flex-col md:flex-row md:space-x-5 justify-center items-center">
+                <div className="w-full rounded-lg outline-dashed outline-2 outline-offset-[3px] outline-light_blue px-4 py-2 bg-faint_blue/10 mb-3 flex text-md justify-center items-center text-[0.9rem] lg:text-md">
+                  <div className="flex flex-col md:flex-row lg:grid md:grid-cols-3 gap-2 md:gap-0 lg:grid-cols-5 space-y-2 md:space-y-0 md:space-x-5 justify-center items-center">
                     <div className=" md:my-0 px-2 flex justify-center items-center  md:px-6 py-4 font-semibold  border-transparent focus:outline-0 rounded-xl bg-faint_blue/30 transition-all duration-300 text-gold hover:border-light_blue hover:bg-faint_blue/10 border-dashed border-2 border-white cursor-pointer" onClick={event_detail_toggle}>
-                      Show event details
+                      Event details
                     </div>
-                    {formStep === 1 ? <div className="px-2 flex justify-center items-center  md:px-6 py-4 font-semibold  border-transparent focus:outline-0 rounded-xl bg-faint_blue/30 transition-all duration-300 text-gold hover:border-light_blue hover:bg-faint_blue/10 border-dashed border-2 border-white cursor-pointer" onClick={ModalToggle} ><MdInfoOutline className="text-2xl mr-1" />Instructions</div> : ""}
+                    {formStep === 1 ? <div className="px-2 flex justify-center items-center  md:px-6 py-4 font-semibold  border-transparent focus:outline-0 rounded-xl bg-faint_blue/30 transition-all duration-300 text-gold hover:border-light_blue hover:bg-faint_blue/10 border-dashed border-2 border-white cursor-pointer" onClick={ModalToggle} ><MdInfoOutline className="text-2xl mr-1 " />Instructions</div> : ""}
 
-                    <div className="">
+                    <div className="md:col-span-3">
                       <li className="  md:font-light md:leading-6  pl-2">₹ 100/- For National Entries
                       </li>
                       <li className="  md:font-light md:leading-6  pl-2">
-                        Free for International Entries
+                        Free for out of Maharashtra and International Entries
                       </li>
                     </div>
 
@@ -580,7 +667,7 @@ function TeamPradnya() {
               {formStep === 1 && (<>
                 {isOpen && (
                   <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80 z-50">
-                    <div className="w-[22rem] md:w-[30rem] bg-light_blue p-6 rounded-xl border border-white border-3">
+                    <div className="w-[22rem] sm:w-[30rem] bg-light_blue p-6 rounded-xl border border-white border-3">
                       <div className="flex justify-between items-center">
                         <h1 className="text-3xl font-bold text-white">Instructions</h1>
                         <button onClick={closeModal} className="text-white font-bold text-4xl">&times;</button>
@@ -594,26 +681,11 @@ function TeamPradnya() {
                           <div className=' mt-2 opacity-100 flex items-center  justify-center text-lg'>
                             <div className='bg-[#0b1e47] rounded-xl border-2 border-gold'>
                               <button disabled className='px-2 md:px-6 py-4 text-white font-semibold border border-transparent focus:outline-0 rounded-xl transition-all duration-300  bg-faint_blue/10'><span>
-                                {`add member- `}
-                                <span style={{ color: 'gold', fontWeight: 'bold', textTransform: 'uppercase' }}>
-                                  Om
-                                </span>
+                                {`add member `}
                               </span></button>
-
                             </div>
                           </div>
                           <br />
-                          <li className="pl-2 w-68">
-                            To add a new member, click
-
-                          </li>
-                          <div className='mt-2 w-full opacity-100 flex items-center   justify-center text-lg'>
-                            <div className='bg-[#0b1e47] mb-2 rounded-xl border-2 border-gold'>
-                              <button disabled className='px-2 md:px-6 py-4 text-white font-semibold border border-transparent focus:outline-0 rounded-xl transition-all duration-300  bg-faint_blue/10'>
-                                add another member
-                              </button>
-                            </div>
-                          </div>
                           <li>For any errors in the form try clearing browser cookies </li>
                         </ul>
                       </div>
@@ -621,136 +693,131 @@ function TeamPradnya() {
                   </div>
                 )}
 
-                {form1.map((form, index) => {
-                  return (
-                    <>
+                <>
+                  {formData.length < 2 ? <div >
+                    <InputBox
+                      label="Name"
+                      name="name"
+                      type="text"
+                      placeholder="Name"
+                      {...(formData.length === 2 ? { disabled: true } : {})}
+                      required
+                      error={errors1.name}
+                      onChange={(event) => handleFormChange(event)}
+                      value={form1.name}
+                      tip={"Name should be between 3 and 50 characters (both inclusive) long and contains only alphabetical characters."}
+                    />
 
-                      <h1 className={`input-label font-medium text-white border-red-500 p-2 ${index === 0 ? 'w-56' : 'w-28'} border-2 text-lg after:ml-0.5 after:text-gold rounded-md shadow-md bg-gradient-to-r from-yellow-300 to-yellow-500 text-center my-2`}>
-                        Member {index + 1} {index === 0 ? "- Team Leader" : ""}
-                      </h1>
-
-                      <div key={index}>
+                    <InputBox
+                      label="Email ID"
+                      name="email"
+                      type="text"
+                      {...(formData.length === 2 ? { disabled: true } : {})}
+                      placeholder="email "
+                      required
+                      error={errors1.email}
+                      onChange={(event) => handleFormChange(event)}
+                      value={form1.email}
+                    />
+                    <div className="md:flex">
+                      <div className="mr-1 w-full md:w-1/2">
                         <InputBox
-                          label="Name"
-                          name="name"
-                          type="text"
-                          placeholder="name "
+                          label="Phone No"
+                          name="phone"
+                          type="tel"
+                          {...(formData.length === 2 ? { disabled: true } : {})}
+                          placeholder="+917507224919"
                           required
-                          error={errors1.name}
-                          onChange={(event) => handleFormChange(event, index)}
-                          value={form.name}
-                          tip={"Name should be between 3 and 50 characters(both inclusive) long and contains only alphabetical characters."}
+                          error={errors1.phone}
+                          onChange={(event) => handleFormChange(event)}
+                          value={form1.phone}
+                          tip={`Enter Country Code (eg. +91) eg. +917507224919`}
                         />
-                        <InputBox
-                          label="Email ID"
-                          name="email"
-                          type="text"
-                          placeholder="email "
-                          required
-                          error={errors1.email}
-                          onChange={(event) => handleFormChange(event, index)}
-                          value={form.email}
-                        />
-                        <div className="md:flex">
-                          <div className="mr-1 w-full md:w-1/2">
-                            <InputBox
-                              label="Phone No"
-                              name="phone"
-                              type="tel"
-                              placeholder="+917507224919"
-                              required
-                              error={errors1.phone}
-                              onChange={(event) => handleFormChange(event, index)}
-                              value={form.phone}
-                              tip={`Enter Country Code (eg. +91) eg. +917507224919`}
-                            />
-                          </div>
-                          <div className="input-box-dropdown w-full mb-4 relative">
-                            <label
-                              className={`input-label font-medium mb-1 text-white text-lg flex`}
-                            >
-                              {"Gender"}
-                              <h1 className="text-gold">*</h1>
-                            </label>
-                            <div className="relative inline-block w-full">
-                              <select
-                                name={"gender"}
-                                value={form.gender}
-                                onChange={(event) => handleFormChange(event, index)}
-                                required
-                                error={errors1.gender}
-                                className={`w-full h-10 pl-4 pr-8 bg-[#0B1E47] text-base text-gold placeholder-gray-500 border rounded-lg appearance-none focus:outline-none focus:shadow-outline-blue`}
-                              >
-                                {gender_type.map((option) => (
-                                  <option
-                                    key={option?.value}
-                                    value={option?.value}
-                                    className={`py-1 bg-[#0B1E47] ${option?.className || ""
-                                      }`}
-                                  >
-                                    {option?.label}
-                                  </option>
-                                ))}
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-                        <FileInputBox
-                          name="member_id"
-                          accept="image/png, image/jpeg"
-                          type="file"
-                          onChange={(e) => handleImageChange(e, index)}
-                          label="Upload college ID"
-                          required
-                          error={errors1.member_id}
-                        />
-                        <NoteBox title="please take note" text="accepted format: jpeg, png and less than 200kb" />
-
-                        {/*  <InputBox
-                          label="CodeChef ID"
-                          name="codechef_id"
-                          type="text"
-                          placeholder="CodeChef ID"
-                          required
-                          error={errors1.codechef_id}
-                          onChange={(event) => handleFormChange(event, index)}
-                          value={form.codechef_id}
-                          tip={'Codechef ID can be Alphanumeric'}
-                        /> */}
-
-                        {index == form1.length - 1 && memberCount < 2 ? (
-                          <Buttons
-                            value={
-                              <>
-                                <span>
-                                  {`add member- `}
-                                  <span style={{ color: 'gold', fontWeight: 'bold', textTransform: 'uppercase' }}>
-                                    {form.name.split(' ')[0]}
-                                  </span>
-                                </span>
-                              </>
-                            }
-                            onClick={addfields}
-                            classNames="my-2"
-                            loading={registerUserMutationForm1.isLoading}
-                          />
-                        ) : <></>}
-                        <hr className="my-5 border-dashed border-gold" />
                       </div>
+                      <div className="input-box-dropdown w-full mb-4 relative">
+                        <label
+                          className={`input-label font-medium mb-1 text-white text-lg flex`}
+                        >
+                          {"Gender"}
+                          <h1 className="text-gold">*</h1>
+                        </label>
+                        <div className="relative inline-block w-full">
+                          <select
+                            name={"gender"}
+                            value={form1.gender}
+                            onChange={(event) => handleFormChange(event)}
+                            required
+                            {...(formData.length === 2 ? { disabled: true } : {})}
+                            error={errors1.gender}
+                            className={`w-full h-10 pl-4 pr-8 bg-[#0B1E47] text-base text-gold placeholder-gray-500 border rounded-lg appearance-none focus:outline-none focus:shadow-outline-blue`}
+                          >
+                            {gender_type.map((option) => (
+                              <option
+                                key={option?.value}
+                                value={option?.value}
+                                className={`py-1 bg-[#0B1E47] ${option?.className || ""
+                                  }`}
+                              >
+                                {option?.label}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <FileInputBox
+                      name="member_id"
+                      accept="image/png, image/jpeg"
+                      type="file"
+                      onChange={(e) => handleImageChange(e)}
+                      label="Upload college ID"
+                      required
+                      error={errors1.member_id}
+                    />
+                    <NoteBox title="please take note" text="accepted format: jpeg, png and less than 200kb" />
 
-                    </>)
-                })
-                }
-              </>)}
+                    <InputBox
+                      label="CodeChef ID"
+                      name="codechef_id"
+                      type="text"
+                      {...(formData.length === 2 ? { disabled: true } : {})}
+                      placeholder="CodeChef ID"
+                      required
+                      error={errors1.codechef_id}
+                      onChange={(event) => handleFormChange(event)}
+                      value={form1.codechef_id}
+                      tip={'Codechef ID can be Alphanumeric'}
+                    />
 
+                    {memberCount < 2 ? (
+                      <Buttons
+                        value={`add member`}
+                        onClick={addfields}
+                        classNames="my-2"
+                        loading={registerUserMutationForm1.isLoading}
+                      />
+                    ) : <></>}
+                    <hr className="my-5 border-dashed border-gold" />
+                  </div> : <></>}
+
+
+                </>
+                <NoteBox
+                  title="Note"
+                  text="First Member in a team will be considered as Team Leader."
+                />
+                {/* -----ADDED MEMBERS------  */}
+                <div className="mb-10 ">
+                  <div className="overflow-x-auto">
+                    <Table title={`Added Members`} columns={columns} data={formData} filter={false} print={false} export={false} pagination={false} keyField='pid' />
+                  </div>
+                </div>
+              </>)
+              }
 
               {/* form 2 */}
               {formStep === 2 && (
                 <>
-                  {/* <NoteBox
-                    title="Note"
-                    text="Please complete the payment within 60 minutes before your session expires. Don't refresh the window or close the tab."
-                  /> */}
                   <RadioButtons
                     label=" Are you PICTian?"
                     options={country_arr}
@@ -969,6 +1036,8 @@ function TeamPradnya() {
                 </>
 
               )}
+
+              {/* -----FORM 3-----  */}
               {formStep === 3 &&
                 (paymentStatus ? (
                   <div className="shadow-md shadow-light_blue/20 bg-light_blue/30 rounded-xl border-light_blue items-center p-4 md:p-8 border border-light_blue w-full">
@@ -1024,8 +1093,10 @@ function TeamPradnya() {
                 ))}
 
 
-
+              {/* ---BUTTONS--- */}
               <div className="flex justify-end">
+
+                {/* ---PREVIOUS BUTTON--- */}
                 {formStep > 1 && formStep < 4 && !(formStep === 3 && paymentStatus) && (
                   <Buttons
                     className="mx-2 my-2"
@@ -1034,7 +1105,7 @@ function TeamPradnya() {
                   />
                 )}
 
-
+                {/* ----- SUBMIT AND NEXT FORM BUTTON ----- */}
                 {formStep === 3 ? (
                   paymentStatus ? (
                     <></>
@@ -1072,20 +1143,6 @@ function TeamPradnya() {
                 )}
 
                 {formStep === 1 && (<div className="space-y-5 md:space-y-0 md:flex justify-between">
-                  <div className="text-center">
-                    {formStep == 1 && form1.length < 2 ? (
-                      <>
-                        <Buttons
-                          className=" mx-2 w-52 md:w-56"
-                          value="add another member"
-                          onClick={addAnotherMember}
-                        />
-                      </>) : (<></>
-                    )}
-                  </div>
-
-
-
                   <div className="text-center md:text-start">
                     <>
                       <Buttons
@@ -1109,16 +1166,16 @@ function TeamPradnya() {
           <CloseMessage />
         </div>
       }
-      {
-        showPopup && (
-          <div className="popup w-[98%] h-[98%] fixed">
-            <button onClick={closePopup} className="absolute right-2 lg:right-5 rounded-md top-3 p-[0.05rem] z-50 border-2 border-white bg-[#000000]" title="Close"><CgClose className="text-3xl" /></button>
-            <div className="popup-content w-[98%] h-[98%] overflow-scroll md:overflow-hidden" >
-              <EventDetails event={event} />
-            </div>
+
+      {/* ----- INSTRUCTIONS POPUP ----- */}
+      {showPopup && (
+        <div className="popup w-[98%] h-[98%] fixed">
+          <button onClick={closePopup} className="absolute right-2 lg:right-5 rounded-md top-3 p-[0.05rem] z-50 border-2 border-white bg-[#000000]" title="Close"><CgClose className="text-3xl" /></button>
+          <div className="popup-content w-[98%] h-[98%] overflow-scroll md:overflow-hidden" >
+            <EventDetails event={event} />
           </div>
-        )
-      }
+        </div>)}
+
     </MainContainer >
   );
 }

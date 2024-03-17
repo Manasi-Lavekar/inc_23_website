@@ -187,6 +187,7 @@ function EventDetails(props) {
         "All students whose colleges are located within the Pune district are required to attend this round in person at the PICT Campus. For students residing outside of the Pune district, there is an option to take the round in hybrid mode.",
       ],
       button_link: "https://pictinc.org/register/events/pradnya",
+      rule_book: ""
     },
 
 

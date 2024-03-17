@@ -66,6 +66,11 @@ function JudgeForm() {
         })
     }
 
+    function validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    }
+
     function handleSubmit(e) {
         e.preventDefault();
         let hasEmptyField = false;
@@ -73,6 +78,17 @@ function JudgeForm() {
             if (key === "referral" && judge[key] === "") {
                 continue; // If referral is empty, continue to the next field
             }
+
+            if (key === "name" && (typeof judge[key] === 'string') && judge[key].trim().length < 3) {
+                toast.warn("Name must be at least 3 characters long.");
+                return;
+            }
+
+            if (key === "email" && !validateEmail(judge[key])) {
+                toast.warn("Please enter a valid E-mail address");
+                return;
+            }
+
             if (judge[key] === "") {
                 hasEmptyField = true;
                 break; // If any other field is empty, set hasEmptyField to true and break the loop
@@ -84,7 +100,7 @@ function JudgeForm() {
             return;
         }
 
-        // console.log("done");
+        // console.log("done"); 
         registerJudgeMutation.mutate(judge, {
             onSuccess: (res) => {
                 setErrors(initialErrors);
