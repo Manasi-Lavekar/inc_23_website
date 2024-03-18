@@ -10,12 +10,41 @@
     animation: moveNotice 15s linear infinite;
     color: #010642;
 }
+
 @keyframes moveNotice {
     from {
         transform: translateX(100%);
     }
     to {
-        transform: translateX(-20%);
+        transform: translateX(-29%);
+    }
+}
+
+@media screen and (max-width: 768px) {
+    @keyframes moveNotice {
+        from {
+            transform: translateX(100%);
+        }
+        to {
+            transform: translateX(-45%);
+        }
+    }
+}
+
+@media screen and (max-width: 480px) {
+    @keyframes moveNotice {
+        from {
+            transform: translateX(100%);
+        }
+        to {
+            transform: translateX(-75%);
+        }
+    }
+}
+
+@media screen and (max-width: 310px) {
+    .notice-content{
+        font-size: 17px;
     }
 }
 

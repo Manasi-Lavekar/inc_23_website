@@ -27,12 +27,11 @@ function Homepage() {
   return (
     <div className="homepage">
       {showPopup && <Popup handleClose={handleClosePopup} />}
-      {/* <div className="notice">
+      <div className="notice">
         <div className="notice-content">
-         
-         <span >Last day of registration 20th March</span>
+         <span >Last day of registration 26th March</span>
         </div>
-      </div> */}
+      </div>
       <Hero />
       <AboutUs />
       {/* <Schedule /> */}
