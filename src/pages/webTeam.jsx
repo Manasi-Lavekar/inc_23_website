@@ -23,7 +23,7 @@ function WebTeam() {
   const teamData = [
     {
       team: 'Support & Guide', members: [
-        { name: 'Abhishek Jadhav', post: 'Support & Guide', email: 'abhishek3jadhav@gmail.com', linkedin: 'https://www.linkedin.com/in/AbhishekJadhav2002/', github: 'https://github.com/AbhishekJadhav2002', photo: test_image },
+        { name: 'Abhishek Jadhav', post: 'Support & Guide', email: 'www.abhishek3jadhav@gmail.com', linkedin: 'https://www.linkedin.com/in/AbhishekJadhav2002/', github: 'https://github.com/AbhishekJadhav2002', photo: test_image },
         { name: 'Manas Kshatriya', post: 'Support & Guide', email: 'manaskshatriya01@gmail.com', linkedin: 'https://www.linkedin.com/in/manas-kshatriya/', github: 'https://github.com/manaskshatriya', photo: test_image7 }
       ],
 
