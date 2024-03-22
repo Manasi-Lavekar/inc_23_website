@@ -10,8 +10,7 @@ function VerifyEventRegistration() {
     const { isLoading, data } = usePendingPayments(event.eventName)
     const verifyPaymentMutation = useVerifyPayment(event.eventName)
 
-
-    // if (data) console.log(data)
+    if (data) console.log(data)
 
     const options = [
         {
@@ -70,20 +69,28 @@ function VerifyEventRegistration() {
             selector: row => row['step_2'],
             cell: row => (
                 <span>
-                    {row['step_2'].map(member => (
+                    {Array.isArray(row['step_2']) && row['step_2'].map(member => (
                         <div key={member.email}>
-                            <li>{member.name} - <span className='text-gold'>{member.phone}</span> </li>
+                            <li>{member.name} - <span className='text-gold'>{member.phone} </span> </li>
                         </div>
                     ))}
                 </span>
             ),
-            cellExport: row => row['step_2'].map(member => `${member.name}`).join(', '),
-        },
+            cellExport: row => Array.isArray(row['step_2']) ? row['step_2'].map(member => `${member.name}`).join(', ') : '',
+        }
+        ,
         {
             name: 'Transaction ID',
             width: '200px',
             selector: row => row['payment_id'],
             cellExport: row => row['payment_id'],
+        },
+
+        {
+            name: 'College',
+            width: '400px',
+            selector: row => row.step_3.college,
+            cellExport: row => row.step_3.college
         },
         {
             name: 'Date',

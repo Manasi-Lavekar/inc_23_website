@@ -46,7 +46,7 @@ export const year_arr = [
 ];
 
 export const year_array = [
-  { value: "FE", label: "1st year / Diploma-3rd year" },
+  { value: "FE", label: "1st year / Diploma-1st/2nd/3rd year" },
   { value: "SE", label: "2nd year" },
   { value: "TE", label: "3rd year" },
   { value: "BE", label: "4th year" },

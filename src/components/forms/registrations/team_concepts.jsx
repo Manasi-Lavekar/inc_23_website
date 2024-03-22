@@ -405,8 +405,7 @@ function TeamConcepts() {
               email: "",
               phone: "",
               gender: "SEL",
-              member_id: "",
-              codechef_id: ""
+              member_id: ""
             });
             SetMemberCount((prevCount) => prevCount + 1);
             toast.success(`Member ${memberCount + 1} added!`, { icon: "✅" });
@@ -432,7 +431,6 @@ function TeamConcepts() {
       phone: "",
       gender: "SEL",
       member_id: "",
-      codechef_id: ""
     };
     setFormFields([...formFields, object]);
   }
@@ -625,7 +623,6 @@ function TeamConcepts() {
   const [formStep, setFormStep] = useState(0);
 
   const prevForm = (e) => {
-    // e.preventDefault();
     setFormStep((currentStep) => currentStep - 1);
     setActiveStep(activeStep - 1);
   };
@@ -815,7 +812,7 @@ function TeamConcepts() {
   const event_detail_toggle = () => {
     setShowPopup(true)
   }
-  const event = "Impetus";
+  const event = "concepts";
   const deleteMemberData = useDeleteMemberDetails("concepts")
   const [deleteLoading, setDeleteLoading] = useState(false)
   const deleteMember = (e, index) => {
@@ -961,7 +958,7 @@ function TeamConcepts() {
                     {formStep === 1 ? <div className="px-2 flex justify-center items-center  md:px-6 py-4 font-semibold  border-transparent focus:outline-0 rounded-xl bg-faint_blue/30 transition-all duration-300 text-gold hover:border-light_blue hover:bg-faint_blue/10 border-dashed border-2 border-white cursor-pointer" onClick={ModalToggle} ><MdInfoOutline className="text-2xl mr-1 " />Instructions</div> : ""}
 
                     <div className="md:col-span-3">
-                      <li className="  md:font-light md:leading-6  pl-2">₹ 100/- For National Entries
+                      <li className="  md:font-light md:leading-6  pl-2">₹ 300/- For National Entries
                       </li>
                       <li className="  md:font-light md:leading-6  pl-2">
                         Free for out of Maharashtra and International Entries

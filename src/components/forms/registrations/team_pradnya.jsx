@@ -497,8 +497,8 @@ function TeamPradnya() {
         {
           onSuccess: () => {
             toast.success("Completed Step 4️⃣ !", { icon: "✅" });
-            setFormStep((currentStep) => currentStep + 1);
-            setActiveStep((activeStep) => activeStep + 1);
+            // setFormStep((currentStep) => currentStep + 1);
+            // setActiveStep((activeStep) => activeStep + 1);
             setPaymentStatus(true);
             // console.log(formStep, activeStep)
           },
